@@ -154,24 +154,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="block.h" />
+    <ClInclude Include="buffer_vertex_array.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Chunk.h" />
-    <ClInclude Include="ChunkRender.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="MasterChunk.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="model_loader.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="rectangle.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Chunk.cpp" />
-    <ClCompile Include="ChunkRender.cpp" />
+    <ClCompile Include="block.cpp" />
+    <ClCompile Include="buffer_vertex_array.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="game_one_finally.cpp" />
-    <ClCompile Include="MasterChunk.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="model_loader.cpp" />
@@ -181,6 +180,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="rectangle.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

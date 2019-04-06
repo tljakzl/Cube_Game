@@ -1,17 +1,15 @@
 #include "pch.h"
 #include "Mesh.h"
-//#include "../../../glew-2.1.0-win32/glew-2.1.0/include/GL/glew.h"
 
 
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Texture* textures)
+
+Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textures;
 
 	setupMesh();
-
-	
 }
 
 void Mesh::Draw(Shader shader)
@@ -35,16 +33,13 @@ void Mesh::Draw(Shader shader)
 
 	shader.Use();
 	shader.setInt("texture", 0);
-	glBindTexture(GL_TEXTURE_2D, textures->id);
+	glBindTexture(GL_TEXTURE_2D, textures[0].id);
 	glActiveTexture(GL_TEXTURE0);
-	
 
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
-
-	
 }
 
 void Mesh::setupMesh()
@@ -63,31 +58,13 @@ void Mesh::setupMesh()
 
 	// vertex positions
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), static_cast<void*>(0));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	// vertex normals
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, Normal)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
 	// vertex texture coords
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, TexCoords)));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
 
 	glBindVertexArray(0);
-
-	
 }
-
-
-void Mesh::clear_data()
-{
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
-
-
-}
-
-
-/*void Mesh::set_texture(Shader shader)
-{
-	
-}*/

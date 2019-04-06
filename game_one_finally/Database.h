@@ -15,7 +15,7 @@ class Database
 
 public:
 
-	Texture textures_loaded;
+	std::vector<Texture> textures_loaded;
 	string directory;
 	vector<Mesh> data;
 	Database(const char* path);

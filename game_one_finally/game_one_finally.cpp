@@ -4,9 +4,9 @@
 #include "Shader.h"
 #include <iostream>
 #include "Camera.h"
+#include "model_loader.h"
+#include "Model.h"
 #include "Database.h"
-#include "Chunk.h"
-#include "MasterChunk.h"
 
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
@@ -20,7 +20,8 @@ GLfloat lastFrame = 0.0f;  							 // Время вывода последнег
 GLfloat lastX = 00, lastY = 00;
 
 
-double FPS = 0;
+
+
 
 int main()
 {
@@ -63,24 +64,43 @@ int main()
 	}
 
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+
 
 	Shader shader_for_block("shaders/Vertex.ver", "shaders/Frag.fg");
 	
 
 
-	
-
-
+	glm::vec3 pos = { 0.0,0.0,0.0 };
 
 	const char* path = { "objects/block.obj" };
 	Database database(path);
-	
+
+
+
+
+
+
+	int size_x = 16;
+	int size_z = 16;
+	int size_y = 32;
+
+	std::vector<Model>chunk;
+
+	for(auto k = 0; k < size_y; ++k)
+	for (auto i = 0; i < size_x; ++i)
+	{
+		vector<Model> temp_vec;
+
+		for (auto j = 0; j < size_z; ++j)
+		{
+			chunk.emplace_back(Model(database, glm::vec3(i,k,j)));
+		}
+		
+	}
 
 	
-	
-	MasterChunk area;
-	area.create_area(&database,5,5);
+
+
 
 
 
@@ -91,12 +111,8 @@ int main()
 	{
 		
 		GLfloat currentFrame = glfwGetTime();
-		
-
-		calculate_frame_rate(currentFrame);
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		
 
 		glfwPollEvents();
 		do_movement();
@@ -104,7 +120,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 
-		
+
 		const glm::mat4 model;
 		const glm::mat4 projection = glm::perspective(camera.Zoom, static_cast<float>(SCR_WIDTH) / SCR_HEIGHT, 0.1f, 100.0f);
 		const glm::mat4 view = camera.GetViewMatrix();
@@ -114,34 +130,20 @@ int main()
 		shader_for_block.setM4fv("model", model);
 		shader_for_block.setM4fv("view", view);
 		shader_for_block.setM4fv("projection", projection);
+		
 
-		area.draw(shader_for_block);
+		for (auto i = chunk.begin(); i < chunk.end();++i)
+			i._Ptr->Draw(shader_for_block);
+			
 		
-		
+		//block.Draw(shader_for_block);
+		//block2.Draw(shader_for_block);
 	
 		glfwSwapBuffers(window);
 	}
 	glfwTerminate();
 	return 0;
 }
-
-
-
-
-
-
-void calculate_frame_rate(GLfloat current)
-{
-	static double last = 0.0;
-	++FPS;
-	if (current - last > 1.0f)
-	{
-		std::cout << "FPS:" << FPS << std::endl;
-		FPS = 0;
-		last = current;
-	}
-}
-
 
 
 void mouse_pos_callback(GLFWwindow* window, double x, double y)
@@ -154,11 +156,8 @@ void mouse_pos_callback(GLFWwindow* window, double x, double y)
 }
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
-
-	
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
-		camera.MovementSpeed += 0.5;
 		double xpos, ypos;
 		//getting cursor position
 		glfwGetCursorPos(window, &xpos, &ypos);
@@ -192,7 +191,6 @@ void key_callback (GLFWwindow* window, int key, int scancode, int action, int mo
 			break;
 		case GLFW_KEY_F:
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		//	flag = true;
 			break;
 		case GLFW_KEY_L:
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

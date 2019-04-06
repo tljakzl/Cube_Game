@@ -19,7 +19,7 @@ void mouse_pos_callback(GLFWwindow* window, double x, double y);
 void do_movement();
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void calculate_frame_rate(GLfloat current);
+
 
 
 const unsigned int SCR_WIDTH = 1960;

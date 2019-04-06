@@ -42,7 +42,7 @@ Mesh Database::processMesh(const scene& scene)
 
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	Texture* textures;
+	std::vector<Texture> textures;
 
 	for (unsigned int i = 0; i < scene.meshes.vertices.size(); i++)
 	{
@@ -103,8 +103,10 @@ Mesh Database::processMesh(const scene& scene)
 	texture.id = TextureFromFile(path.c_str(), directory);
 	texture.type = "test";
 	texture.path = path.c_str();
-	textures_loaded = texture;
-	textures  = &textures_loaded;
+	textures.push_back(texture);
+
+	textures_loaded.push_back(texture);
+
 
 	return Mesh(vertices, indices, textures);
 }
