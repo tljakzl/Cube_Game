@@ -23,16 +23,20 @@ struct Texture {
 
 class Mesh {
 public:
+	//void set_texture(Shader shader);
+	void clear_data();
 	/*  Mesh Data  */
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
-	vector<Texture> textures;
+	Texture* textures;
 	/*  Functions  */
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Texture* textures);
+	Mesh() {}
 	void Draw(Shader shader);
+	void setupMesh();
 private:
 	/*  Render data  */
 	unsigned int VAO, VBO, EBO;
 	/*  Functions    */
-	void setupMesh();
+	
 };
