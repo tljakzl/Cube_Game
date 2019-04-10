@@ -26,13 +26,19 @@ void RenderMaster::draw_chunks(Shader shader)
 {
 	for (auto cur_chunk : chunk_meshes)
 	{
-		cur_chunk.draw(shader);
+		cur_chunk.second.draw(shader);
 	}
 }
-void RenderMaster::add_chunk(ChunkRender chunk)
+void RenderMaster::add_chunk(std::string key,ChunkRender chunk)
 {
-	this->chunk_meshes.push_back(chunk);
+	this->chunk_meshes.emplace(key,chunk);
 }
+
+void RenderMaster::update_chunk(std::string key,std::vector<ChunkSection> data)
+{
+	this->chunk_meshes.at(key).update_mesh(data);
+}
+
 
 
 

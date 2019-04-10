@@ -120,7 +120,17 @@ int main()
 		
 		
 		world_test.draw(shader_for_block);
-		
+		if (flag)
+		{
+			try 
+			{
+				world_test.delete_block(glm::vec3(camera.Position.x, 0, camera.Position.z));
+			}
+			catch (std::out_of_range t) {
+				std::cout << t.what() << std::endl;
+			}
+			flag = false;
+		}
 	
 		glfwSwapBuffers(window);
 	}

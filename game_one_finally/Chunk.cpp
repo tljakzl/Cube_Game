@@ -5,6 +5,8 @@
 
 Chunk::Chunk(glm::vec3 position):chunk_position(position)
 {
+	int x = position.x / 16;
+	int z = position.z / 16;
 	glm::vec3 current_pos_section = chunk_position;
 	for (auto curr_section = 0; curr_section < section_in_chunk; ++curr_section)
 	{
@@ -38,6 +40,13 @@ blockInfo* Chunk::get_block(glm::vec3 pos_block)
 
 void Chunk::delete_block(glm::vec3 pos_block)
 {
-	get_block(pos_block)->notempty = false;
+	glm::vec3 pos;
+	pos.x = static_cast<int>(pos_block.x) % 16;
+	pos.z = static_cast<int>(pos_block.z) % 16;
+	pos.y = pos_block.y;
+
+
+	get_block(pos)->notempty = false;
+
 	
 }

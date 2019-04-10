@@ -27,7 +27,7 @@ void ChunkManager::create_area()
 			if (i == 0) ++i;
 				cur_chunk_pos.z = i  * chunk_section_size_z;
 				//Chunk chunk(cur_chunk_pos);
-				std::string key = std::to_string(i) + "x" + std::to_string(j);
+				std::string key = std::to_string(j) + "x" + std::to_string(i);
 				area.emplace(key, cur_chunk_pos);
 			
 			
