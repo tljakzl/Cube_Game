@@ -1,30 +1,19 @@
 #pragma once
 #include "Model.h"
-#include "ChunkRender.h"
+#include "ChunkSection.h"
+#include "ChunkInfo.h"
 
 class Chunk
 {
 
-	Mesh chunk;
-	void render();
-
-
-	unsigned size_x = 16;
-	unsigned size_y = 16;
-	unsigned size_z = 16;
-
-	glm::vec3 chunk_position = { 0.0f,0.0f,0.0f };
-
-	Database* database_;
-
 public:
-	
-	void draw(Shader shader);
-	Chunk(Database* database):database_(database)
-	{
-		render();
-	}
-	Chunk(ChunkRender chunk_render, Database* database,glm::vec3 position_chunk);
+	std::vector<ChunkSection> chunk_data;
+	glm::vec3 chunk_position;
+	blockInfo* get_block(glm::vec3);
+	void delete_block(glm::vec3 pos_block);
+	Chunk(glm::vec3 position_chunk);
 	~Chunk();
+	int find_section(glm::vec3 pos_block);
+	
 };
 

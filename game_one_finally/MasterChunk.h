@@ -2,19 +2,21 @@
 #include <vector>
 #include "Database.h"
 #include "Chunk.h"
+#include "ChunkInfo.h"
+#include <unordered_map>
 
 
-class MasterChunk
+class ChunkManager
 {
-	std::vector<std::vector<Chunk>> area;
-	Database* database;
-	glm::vec3 chunk_position = { 0,0,0 };
-	int size_x;
-	int size_z;
+	//std::pair<std::pair<int, int>, std::pair<int, int>> size_area({ -1,-1 }, { 1,1 });
+	int x0 = -1;
+	int x1 = 1;
+	int z0 = -1;
+	int z1 = 1;
 public:
-	void draw(Shader shader);
-	MasterChunk();
-	~MasterChunk();
-	void create_area(Database* database, int x, int z);
+	std::unordered_map<std::string,Chunk> area;
+	ChunkManager();
+	~ChunkManager();
+	void create_area();
 };
 

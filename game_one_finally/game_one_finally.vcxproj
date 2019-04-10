@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>D:\glew-2.1.0-win32\glew-2.1.0\include;D:\glfw-3.2.1\glfw-3.2.1\include;D:\glm-0.9.5.4\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\glew-2.1.0-win32\glew-2.1.0\include;D:\glfw-3.2.1\glfw-3.2.1\include;D:\glm-0.9.5.4\glm;D:\libraly\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,23 +154,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BlockInfo.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chunk.h" />
+    <ClInclude Include="ChunkInfo.h" />
     <ClInclude Include="ChunkRender.h" />
+    <ClInclude Include="ChunkSection.h" />
     <ClInclude Include="Database.h" />
+    <ClInclude Include="getter_block.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MasterChunk.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="model_loader.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RenderMaster.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="ChunkRender.cpp" />
+    <ClCompile Include="ChunkSection.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="game_one_finally.cpp" />
+    <ClCompile Include="getter_block.cpp" />
     <ClCompile Include="MasterChunk.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -181,7 +189,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RenderMaster.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

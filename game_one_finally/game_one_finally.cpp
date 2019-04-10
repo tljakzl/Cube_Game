@@ -5,8 +5,7 @@
 #include <iostream>
 #include "Camera.h"
 #include "Database.h"
-#include "Chunk.h"
-#include "MasterChunk.h"
+#include "World.h"
 
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
@@ -19,7 +18,7 @@ GLfloat deltaTime = 0.0f;							 // Время, прошедшее между п
 GLfloat lastFrame = 0.0f;  							 // Время вывода последнего кадра
 GLfloat lastX = 00, lastY = 00;
 
-
+bool flag = false;
 double FPS = 0;
 
 int main()
@@ -72,17 +71,20 @@ int main()
 	
 
 
-
 	const char* path = { "objects/block.obj" };
 	Database database(path);
-	
-
-	
-	
-	MasterChunk area;
-	area.create_area(&database,5,5);
 
 
+
+
+	
+	
+
+
+
+
+	World world_test(&database);
+	
 
 
 
@@ -110,13 +112,14 @@ int main()
 		const glm::mat4 view = camera.GetViewMatrix();
 		//const float length = static_cast<float>(glfwGetTime());
 
-
+		
 		shader_for_block.setM4fv("model", model);
 		shader_for_block.setM4fv("view", view);
 		shader_for_block.setM4fv("projection", projection);
 
-		area.draw(shader_for_block);
 		
+		
+		world_test.draw(shader_for_block);
 		
 	
 		glfwSwapBuffers(window);
@@ -160,6 +163,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	{
 		camera.MovementSpeed += 0.5;
 		double xpos, ypos;
+		flag = true;
 		//getting cursor position
 		glfwGetCursorPos(window, &xpos, &ypos);
 		mouse_x =  (xpos - SCR_WIDTH / 2) / SCR_WIDTH * 2;
@@ -174,6 +178,31 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 void key_callback (GLFWwindow* window, int key, int scancode, int action, int mode)
 {
+	float  alpha = camera.Pitch;
+	float  beta  = camera.Yaw;
+	float  alpha_ = glm::radians(alpha);
+	float  beta_ = glm::radians(beta);
+
+
+	float num_x = camera.Position.x / 16;
+	int counter = 0;
+	float num_z = camera.Position.z / 16;
+
+	if (num_x >= 0)
+		counter = 1;
+	else counter = -1;
+	int chunk_x = (int)(camera.Position.x / 16) + counter;
+
+
+	
+
+	if (num_z >= 0)
+		counter = 1;
+	else counter = -1;
+	int chunk_z = (int)(camera.Position.z / 16) + counter;
+
+
+
 	if (action == GLFW_PRESS)
 		keys[key] = true;
 	else if (action == GLFW_RELEASE)
@@ -183,7 +212,14 @@ void key_callback (GLFWwindow* window, int key, int scancode, int action, int mo
 	{
 		switch (key)
 		{
+		case GLFW_KEY_1:
 
+			std::cout << "Position:(" << camera.Position.x << "," << camera.Position.y << "," << camera.Position.z << ")" << std::endl;
+			//std::cout << "Position dig:(" <<  cos(beta_) * cos(alpha_) << "," << sin(alpha_) << "," <<  cos(alpha_)*sin(beta_) << ")" << std::endl;
+		
+			
+			std::cout << "NumChunk:(" << chunk_x << ","  << chunk_z << ")" << std::endl;
+			break;
 		case GLFW_KEY_ESCAPE:
 			glfwSetWindowShouldClose(window, GL_TRUE);
 			break;

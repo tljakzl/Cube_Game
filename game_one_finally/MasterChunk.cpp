@@ -3,44 +3,36 @@
 
 
 
-MasterChunk::MasterChunk()
+ChunkManager::ChunkManager()
 {
 }
 
 
-MasterChunk::~MasterChunk()
+ChunkManager::~ChunkManager()
 {
 }
 
-
-
-void MasterChunk::create_area(Database* database, int x, int z)
+void ChunkManager::create_area()
 {
-	this->size_x = x;
-	this->size_z = z;
-	for (auto j = 0; j < z; ++j) 
+	glm::vec3 cur_chunk_pos = chunk_position_;
+	for (auto j = x0; j <= x1 ; ++j)
 	{
-		std::vector<Chunk> vector_chunk;
-		chunk_position.x = j * 16;
-		for (auto i = 0; i < x; ++i)
+		if (j == 0 )
 		{
-			ChunkRender chunk;
-			chunk_position.z = i * 16;
-			Chunk chunk_chunk(chunk, database, chunk_position);
-			vector_chunk.push_back(chunk_chunk);
+			++j;
 		}
-		this->area.push_back(vector_chunk);
+		cur_chunk_pos.x = j   * chunk_section_size_x;
+		for (auto i = z0; i <= z1 ; ++i)
+		{
+			if (i == 0) ++i;
+				cur_chunk_pos.z = i  * chunk_section_size_z;
+				//Chunk chunk(cur_chunk_pos);
+				std::string key = std::to_string(i) + "x" + std::to_string(j);
+				area.emplace(key, cur_chunk_pos);
+			
+			
+		
+	
+		}
 	}
-
-
-}
-
-
-
-
-void MasterChunk::draw(Shader shader)
-{
-	for (auto i = this->area.begin(); i < this->area.end(); ++i)
-		for (auto j = i->begin(); j < i->end(); ++j)
-			j->draw(shader);
 }

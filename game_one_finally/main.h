@@ -22,5 +22,5 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void calculate_frame_rate(GLfloat current);
 
 
-const unsigned int SCR_WIDTH = 1960;
-const unsigned int SCR_HEIGHT = 1080;
+const unsigned int SCR_WIDTH  = 16 * 70;
+const unsigned int SCR_HEIGHT = 9 * 70;

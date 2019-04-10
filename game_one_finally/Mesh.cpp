@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Mesh.h"
-//#include "../../../glew-2.1.0-win32/glew-2.1.0/include/GL/glew.h"
+
 
 
 Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Texture* textures)
