@@ -19,9 +19,45 @@ void ChunkRender::render(std::unordered_map<std::string,blockInfo> curr_section)
 
 	auto block_count = 0;
 
-	Mesh temp_mesh;
 
-	for (auto x : curr_section)
+
+
+
+
+
+	for (auto x : curr_section) 
+	{
+		if (x.second.notempty)
+		{
+			for (auto cur_ind : x.second.indices)
+			{
+				for (auto i = 0; i < 6; ++i)
+				{
+					Vertex temp_ver;
+					temp_ver.Position = data_ver.at(cur_ind * 6 + i).Position + x.second.position_;
+					temp_ver.Normal = data_ver.at(cur_ind * 6 + i).Normal;
+					temp_ver.TexCoords = data_ver.at(cur_ind * 6 + i).TexCoords;
+
+					this->chunk_mesh_.vertices.push_back(temp_ver);
+					this->chunk_mesh_.indices.push_back(block_count++);
+				}
+			}
+
+
+
+			
+		}
+		//block_count += 0;
+	}
+
+	this->chunk_mesh_.textures = &database_->textures_loaded;
+	this->chunk_mesh_.setupMesh();
+
+
+
+	
+
+	/*for (auto x : curr_section)
 		if (x.second.notempty)
 		{
 			for (auto k : data_ver)
@@ -30,39 +66,37 @@ void ChunkRender::render(std::unordered_map<std::string,blockInfo> curr_section)
 				temp_ver.Position = k.Position + x.second.position_;
 				temp_ver.Normal = k.Normal;
 				temp_ver.TexCoords = k.TexCoords;
-				temp_mesh.vertices.push_back(temp_ver);
+				this->chunk_mesh_.vertices.push_back(temp_ver);
 
 				for (auto cur_ind : x.second.indices)
 				{
 					for (auto number_point = 0; number_point < 6; ++number_point)
-						temp_mesh.indices.push_back(cur_ind * 6 + number_point + block_count);
+						this->chunk_mesh_.indices.push_back(cur_ind * 6 + number_point + block_count);
 
 				}
 			}
 			block_count += 36;
-		}
-	temp_mesh.textures = &database_->textures_loaded;
-	temp_mesh.setupMesh();
-	this->chunk_mesh_.push_back(temp_mesh);
+		}*/
+	
+	
 }
 
 
 
-void ChunkRender::draw(Shader shader)
+void ChunkRender::draw(Shader* shader)
 {
-	for (auto cur_mesh : chunk_mesh_)
-		cur_mesh.Draw(shader);
+	this->chunk_mesh_.Draw(shader);
 }
 
 
 void ChunkRender::update_mesh(std::vector<ChunkSection> data)
 {
 
-	for (auto curr_section : chunk_mesh_)
-		curr_section.clear_data();
-
-	this->chunk_mesh_.clear();
-	this->chunk_mesh_.shrink_to_fit();
+	this->chunk_mesh_.clear_data();
+	this->chunk_mesh_.indices.clear();
+	this->chunk_mesh_.indices.shrink_to_fit();
+	this->chunk_mesh_.vertices.clear();
+	this->chunk_mesh_.vertices.shrink_to_fit();
 
 	for (auto curr_section : data)
 		render(curr_section.chunk_section_data);

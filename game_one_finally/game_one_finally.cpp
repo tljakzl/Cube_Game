@@ -119,7 +119,7 @@ int main()
 
 		
 		
-		world_test.draw(shader_for_block);
+		world_test.draw(&shader_for_block);
 		if (flag)
 		{
 			try 

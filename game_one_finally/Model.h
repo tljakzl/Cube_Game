@@ -29,7 +29,7 @@ public:
 	}
 
 	void set_position(const char* path, glm::vec3 position);
-	void Draw(Shader shader);
+	void Draw(Shader* shader);
 	void clear_data();
 private:
 	void load_data(Database database);

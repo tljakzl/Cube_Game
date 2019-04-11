@@ -63,7 +63,31 @@ void ChunkSection::render(glm::vec3 position)
 			{
 				blockInfo block;
 				block.position_ = glm::vec3(x , y, z ) + pos;
-				block.indices.push_back(top_side);
+				if(y == chunk_section_size_y - 1)
+					block.indices.push_back(top_side);
+
+				if (x == chunk_section_size_x - 1)
+					block.indices.push_back(right_side);
+
+				if (z == chunk_section_size_z - 1)
+					block.indices.push_back(forward_side);
+
+				if (y == 0)
+					block.indices.push_back(bottom_side);
+
+				if (x == 0)
+					block.indices.push_back(left_side);
+
+
+				
+				
+
+
+				if (z == 0)
+					block.indices.push_back(backward_side);
+
+
+
 				block.notempty = true;
 				block.type_ = 1;
 				std::string key = std::to_string(static_cast<int>(block.position_.x + delta_x)) + "x" + std::to_string(static_cast<int>(block.position_.y)) + "x" + std::to_string(static_cast<int>(block.position_.z + delta_z));

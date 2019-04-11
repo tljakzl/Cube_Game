@@ -10,8 +10,8 @@ class RenderMaster
 public:
 	void add_mesh(Mesh*);
 	void add_chunk(std::string,ChunkRender);
-	void draw_meshes(Shader shader);
-	void draw_chunks(Shader shader);
+	void draw_meshes(Shader* shader);
+	void draw_chunks(Shader* shader);
 	void update_chunk(std::string,std::vector<ChunkSection> data);
 	RenderMaster();
 	~RenderMaster();

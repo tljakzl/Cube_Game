@@ -14,7 +14,7 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Texture* textu
 	
 }
 
-void Mesh::Draw(Shader shader)
+void Mesh::Draw(Shader* shader)
 {
     /*unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
@@ -33,8 +33,8 @@ void Mesh::Draw(Shader shader)
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}*/
 
-	shader.Use();
-	shader.setInt("texture", 0);
+	shader->Use();
+	shader->setInt("texture", 0);
 	glBindTexture(GL_TEXTURE_2D, textures->id);
 	glActiveTexture(GL_TEXTURE0);
 	

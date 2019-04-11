@@ -32,7 +32,7 @@ public:
 	/*  Functions  */
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Texture* textures);
 	Mesh() {}
-	void Draw(Shader shader);
+	void Draw(Shader* shader);
 	void setupMesh();
 private:
 	/*  Render data  */

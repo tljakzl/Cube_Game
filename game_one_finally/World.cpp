@@ -37,7 +37,7 @@ World::~World()
 {
 }
 
-void World::draw(Shader shader)
+void World::draw(Shader* shader)
 {
 	this->render.draw_chunks(shader);
 }
@@ -57,12 +57,35 @@ void World::delete_block(glm::vec3 pos)
 
 	glm::vec3 pos_backward = { pos.x , pos.y, pos.z + 1 };
 	std::string key_backward = find_chunk(pos_backward);
+
+	glm::vec3 pos_top = { pos.x , pos.y - 1, pos.z  };
+	std::string key_top = find_chunk(pos_top);
+
+	glm::vec3 pos_bottom = { pos.x , pos.y + 1, pos.z };
+	std::string key_bottom = find_chunk(pos_bottom);
 	
 	try
 	{
 		world.area.at(key).delete_block(pos);
-		//world.area.at(key_forward).get_block(pos_for)->indices.push_back(forward_side);
-		//world.area.at(key_forward).get_block(pos_for)->indices.push_back(backward_side);
+		try 
+		{
+			world.area.at(key_top).get_block(pos_top)->indices.push_back(top_side);
+		}
+		catch (std::out_of_range err)
+		{
+			std::cout << err.what() << std::endl;
+		}
+
+
+		try
+		{
+			world.area.at(key_bottom).get_block(pos_bottom)->indices.push_back(bottom_side);
+		}
+		catch (std::out_of_range err)
+		{
+			std::cout << err.what() << std::endl;
+		}
+
 		try 
 		{
 			world.area.at(key_left).get_block(pos_left)->indices.push_back(left_side);
@@ -108,6 +131,11 @@ void World::delete_block(glm::vec3 pos)
 		{
 			std::cout << err.what() << std::endl;
 		}
+
+
+		
+			
+		
 
 		//need add top and bottom, and add function for update 
 	
