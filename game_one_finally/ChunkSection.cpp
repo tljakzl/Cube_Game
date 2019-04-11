@@ -27,32 +27,46 @@ ChunkSection::~ChunkSection()
 void ChunkSection::render(glm::vec3 position)
 {
 	glm::vec3 pos = position;
-	int x_start = 0;
-	int z_start = 0;
+	int delta_x = 0;
+	int delta_z = 0;
+
+	if(position.x < 0 && position.z < 0)
+	{
+		delta_x = 1;
+		delta_z = 1;
+	}
+
 	if (position.x < 0 && position.z > 0)
+	{
 		pos.z -= chunk_section_size_z;
+		delta_x = 1;
+	}
 	if (position.x > 0 && position.z < 0)
+	{
 		pos.x -= chunk_section_size_x;
+		delta_z = 1;
+	}
 		
 	if (position.x > 0 && position.z > 0)
 	{
-		pos.x -= chunk_section_size_x;
-		pos.z -= chunk_section_size_z;
+		pos.x -= chunk_section_size_x ;
+		pos.z -= chunk_section_size_z ;
+
 	}
 
 
 	for (auto y = 0; y < chunk_section_size_y; ++y)
 	{
-		for (auto z = z_start; z < chunk_section_size_z; ++z)
+		for (auto z = 0; z < chunk_section_size_z; ++z)
 		{
-			for (auto x = x_start; x < chunk_section_size_x; ++x)
+			for (auto x = 0; x < chunk_section_size_x; ++x)
 			{
 				blockInfo block;
-				block.position_ = glm::vec3(x, y, z) + pos;
+				block.position_ = glm::vec3(x , y, z ) + pos;
 				block.indices.push_back(top_side);
 				block.notempty = true;
 				block.type_ = 1;
-				std::string key = std::to_string(static_cast<int>(block.position_.x)) + "x" + std::to_string(static_cast<int>(block.position_.y)) + "x" + std::to_string(static_cast<int>(block.position_.z));
+				std::string key = std::to_string(static_cast<int>(block.position_.x + delta_x)) + "x" + std::to_string(static_cast<int>(block.position_.y)) + "x" + std::to_string(static_cast<int>(block.position_.z + delta_z));
 				chunk_section_data.emplace(key,block);
 
 			}
