@@ -12,7 +12,7 @@ class ChunkSection
 
 public:
 
-	std::unordered_map<std::string,blockInfo> chunk_section_data;
+	std::vector<blockInfo> chunk_section_data;
 	blockInfo* get_block(glm::vec3);
 	ChunkSection(glm::vec3 position);
 	~ChunkSection();

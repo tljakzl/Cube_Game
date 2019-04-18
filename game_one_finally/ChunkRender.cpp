@@ -6,6 +6,7 @@ ChunkRender::ChunkRender(Database* database,Chunk* chunk):database_(database),ch
 {
 	for (const auto curr_section : chunk_->chunk_data)
 		render(curr_section.chunk_section_data);
+	setup_mesh();
 }
 
 
@@ -13,28 +14,20 @@ ChunkRender::~ChunkRender()
 {
 }
 
-void ChunkRender::render(std::unordered_map<std::string,blockInfo> curr_section)
+void ChunkRender::render(std::vector<blockInfo> curr_section)
 {
 	auto data_ver = database_->data.begin()->vertices;
 
-	auto block_count = 0;
-
-
-
-
-
-
-
 	for (auto x : curr_section) 
 	{
-		if (x.second.notempty)
+		if (x.notempty)
 		{
-			for (auto cur_ind : x.second.indices)
+			for (auto cur_ind : x.indices)
 			{
 				for (auto i = 0; i < 6; ++i)
 				{
 					Vertex temp_ver;
-					temp_ver.Position = data_ver.at(cur_ind * 6 + i).Position + x.second.position_;
+					temp_ver.Position = data_ver.at(cur_ind * 6 + i).Position + x.position_;
 					temp_ver.Normal = data_ver.at(cur_ind * 6 + i).Normal;
 					temp_ver.TexCoords = data_ver.at(cur_ind * 6 + i).TexCoords;
 
@@ -47,11 +40,11 @@ void ChunkRender::render(std::unordered_map<std::string,blockInfo> curr_section)
 
 			
 		}
-		//block_count += 0;
 	}
 
-	this->chunk_mesh_.textures = &database_->textures_loaded;
-	this->chunk_mesh_.setupMesh();
+
+	
+
 
 
 
@@ -81,6 +74,11 @@ void ChunkRender::render(std::unordered_map<std::string,blockInfo> curr_section)
 	
 }
 
+void ChunkRender::setup_mesh()
+{
+	this->chunk_mesh_.textures = &database_->textures_loaded;
+	this->chunk_mesh_.setupMesh();
+}
 
 
 void ChunkRender::draw(Shader* shader)
@@ -91,7 +89,7 @@ void ChunkRender::draw(Shader* shader)
 
 void ChunkRender::update_mesh(std::vector<ChunkSection> data)
 {
-
+	block_count = 0;
 	this->chunk_mesh_.clear_data();
 	this->chunk_mesh_.indices.clear();
 	this->chunk_mesh_.indices.shrink_to_fit();
@@ -100,6 +98,7 @@ void ChunkRender::update_mesh(std::vector<ChunkSection> data)
 
 	for (auto curr_section : data)
 		render(curr_section.chunk_section_data);
+	setup_mesh();
 }
 
 

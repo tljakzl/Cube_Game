@@ -39,13 +39,10 @@ blockInfo* Chunk::get_block(glm::vec3 pos_block)
 
 void Chunk::delete_block(glm::vec3 pos_block)
 {
-	glm::vec3 pos;
-	pos.x = static_cast<int>(pos_block.x) % 16;
-	pos.z = static_cast<int>(pos_block.z) % 16;
-	pos.y = pos_block.y;
 
 
-	get_block(pos)->notempty = false;
+
+	get_block(pos_block)->notempty = false;
 
 	
 }

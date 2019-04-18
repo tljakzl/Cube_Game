@@ -1,13 +1,24 @@
 #include "pch.h"
-#include <iterator>
-#include "getter_block.h"
 #include "ChunkSection.h"
-#include <string>
 
 
 blockInfo* ChunkSection::get_block(glm::vec3 pos_block)
 {
-	std::string key = std::to_string(static_cast<int>(pos_block.x)) + "x" + std::to_string(static_cast<int>(pos_block.y)) + "x" + std::to_string(static_cast<int>(pos_block.z));
+
+	int x = static_cast<int>(abs(pos_block.x)) % 16;
+	int z = static_cast<int>(abs(pos_block.z)) % 16;
+	int y = static_cast<int>(abs(pos_block.y)) % 16;
+
+
+	if (pos_block.x < 0)
+		x = static_cast<int>(pos_block.x) % 16 + 15;
+	
+	if (pos_block.z < 0)
+		z = static_cast<int>(pos_block.z) % 16 + 15;
+
+
+
+	int key =  x + y * chunk_section_size_z*chunk_section_size_x +  z * chunk_section_size_z;
 	auto *block = &chunk_section_data.at(key);
 	return block;
 }
@@ -63,35 +74,26 @@ void ChunkSection::render(glm::vec3 position)
 			{
 				blockInfo block;
 				block.position_ = glm::vec3(x , y, z ) + pos;
-				if(y == chunk_section_size_y - 1)
+
+ 
+				if(block.position_.y == chunk_section_size_y - 1)
 					block.indices.push_back(top_side);
-
-				if (x == chunk_section_size_x - 1)
-					block.indices.push_back(right_side);
-
-				if (z == chunk_section_size_z - 1)
-					block.indices.push_back(forward_side);
-
-				if (y == 0)
-					block.indices.push_back(bottom_side);
-
-				if (x == 0)
-					block.indices.push_back(left_side);
-
-
-				
-				
-
-
-				if (z == 0)
-					block.indices.push_back(backward_side);
+				//if (x == chunk_section_size_x - 1)
+				//	block.indices.push_back(right_side);
+				//if (z == chunk_section_size_z - 1)
+				//	block.indices.push_back(forward_side);
+				//if (y == 0)
+				//	block.indices.push_back(bottom_side);
+				//if (x == 0)
+				//	block.indices.push_back(left_side);
+				//if (z == 0)
+				//	block.indices.push_back(backward_side);
 
 
 
 				block.notempty = true;
 				block.type_ = 1;
-				std::string key = std::to_string(static_cast<int>(block.position_.x + delta_x)) + "x" + std::to_string(static_cast<int>(block.position_.y)) + "x" + std::to_string(static_cast<int>(block.position_.z + delta_z));
-				chunk_section_data.emplace(key,block);
+				chunk_section_data.push_back(block);
 
 			}
 		

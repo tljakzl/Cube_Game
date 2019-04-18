@@ -9,7 +9,9 @@ class ChunkRender
 	Database* database_;
 	Chunk* chunk_;
 
-	void render(std::unordered_map<std::string, blockInfo>);
+	void render(std::vector<blockInfo>);
+	void setup_mesh();
+	int block_count = 0;
 public:
 
 	Mesh chunk_mesh_;
