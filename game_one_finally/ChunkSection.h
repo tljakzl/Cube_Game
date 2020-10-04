@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <glm/detail/type_vec3.hpp>
+#include "glm/detail/type_vec3.hpp"
 #include "BlockInfo.h"
 #include "ChunkInfo.h"
 #include <unordered_map>

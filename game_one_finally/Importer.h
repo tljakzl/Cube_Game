@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <glm/detail/type_vec3.hpp>
+#include "glm/detail/type_vec3.hpp"
 
 
 #define aiProcess_Triangulate 0x01

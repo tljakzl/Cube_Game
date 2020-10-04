@@ -4,7 +4,7 @@
 
 #include <string>
 #include "glm/gtc/type_ptr.hpp"
-#include <GL/glew.h>
+#include "GL/glew.h"
 
 class Shader
 {

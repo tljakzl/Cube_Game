@@ -24,13 +24,13 @@ void Model::load_data(Database database)
 	vector<unsigned int> indices;
     Texture* textures;
 
-	auto data = database.data.begin()._Ptr;
+	auto data = database.data.begin();
 	for (auto i = data->vertices.begin();i< data->vertices.end();++i)
 	{
 		Vertex temp_ver;
-		temp_ver.Position  = i._Ptr->Position + position_;
-		temp_ver.Normal    = i._Ptr->Normal;
-		temp_ver.TexCoords = i._Ptr->TexCoords;
+		temp_ver.Position  = i->Position + position_;
+		temp_ver.Normal    = i->Normal;
+		temp_ver.TexCoords = i->TexCoords;
 		vertices.push_back(temp_ver);
 	}
 
@@ -46,7 +46,7 @@ void Model::load_data(Database database, std::vector<unsigned>* sides)
 	vector<unsigned int> indices;
 	Texture* textures;
 
-	auto data = database.data.begin()._Ptr;
+	auto data = database.data.begin();
 /*	for (auto i = data->vertices.begin(); i < data->vertices.end(); ++i)
 	{
 		Vertex temp_ver;
@@ -79,7 +79,7 @@ void Model::load_data(Database database, std::vector<unsigned>* sides)
 
 void Model::clear_data()
 {
-	meshes.begin()._Ptr->clear_data();
+	meshes.begin()->clear_data();
 }
 
 

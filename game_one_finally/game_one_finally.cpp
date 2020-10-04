@@ -79,7 +79,7 @@ int main()
 
 
 
-	const char* path = { "objects/block.obj" };
+	const char* path = { "objects/cube.obj" };
 	Database database(path);
 
 
@@ -115,7 +115,7 @@ int main()
 		
 
 		
-		const glm::mat4 model;
+		glm::mat4 model;
 		const glm::mat4 projection = glm::perspective(camera.Zoom, static_cast<float>(SCR_WIDTH) / SCR_HEIGHT, 0.1f, 100.0f);
 		const glm::mat4 view = camera.GetViewMatrix();
 		const float length = static_cast<float>(glfwGetTime());

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Database.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "stb/stb_image.h"
 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
 
@@ -11,7 +11,7 @@ void Database::loadModel(std::string path)
 	scene scene = importer.read_file(path.c_str());
 
 	directory = path.substr(0, path.find_last_of('//'));
-	//std::cout << " directory: " << directory << std::endl;
+	std::cout << " directory: " << directory << std::endl;
 
 	processNode(scene);
 }

@@ -11,7 +11,7 @@ public:
 	glm::vec3 chunk_position;
 	int x;
 	int z;
-	blockInfo* get_block(glm::vec3);
+	blockInfo* get_block(const glm::vec3& vec);
 	void delete_block(glm::vec3 pos_block);
 	Chunk(glm::vec3 position_chunk);
 	~Chunk();

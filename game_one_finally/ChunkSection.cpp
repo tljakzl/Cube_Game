@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ChunkSection.h"
 #include <random>
-#include <glm/detail/func_exponential.inl>
+#include "glm/detail/func_exponential.inl"
 #include <valarray>
 
 
@@ -42,7 +42,7 @@ ChunkSection::~ChunkSection()
 
 static double Lerp(double a, double b, double t)
 {
-	// return a * (t - 1) + b * t; можно переписать с одним умножением (раскрыть скобки, взять в другие скобки):
+	// return a * (t - 1) + b * t; пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ):
 	return a + (b - a) * t;
 }
 
@@ -125,7 +125,7 @@ double noize(double x, double y, double freq)
 	double local_y =  y  / block_size - chunk_y;
 
 
-	// вектора от вершин квадрата до точки внутри квадрата:
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
 	vec2 distanceToTopLeft     = vec2(local_x , local_y);
 	vec2 distanceToTopRight    = vec2(local_x - 1, local_y);
 	vec2 distanceToBottomLeft  = vec2(local_x, local_y - 1);
@@ -143,11 +143,11 @@ double noize(double x, double y, double freq)
 	double bx1 = Dot(distanceToBottomLeft, bottomLeftGradient);
 	double bx2 = Dot(distanceToBottomRight, bottomRightGradient);
 
-	// готовим параметры интерполяции, чтобы она не была линейной:
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
 	local_x = QunticCurve(local_x);
 	local_y = QunticCurve(local_y);
 
-	// собственно, интерполяция:
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
 	double tx = Lerp(tx1, tx2, local_x);
 	double bx = Lerp(bx1, bx2, local_x);
 	double tb = Lerp(tx, bx, local_y);
@@ -201,7 +201,7 @@ void ChunkSection::render(glm::vec3 position)
 			for (auto x = 0; x < chunk_section_size_x; ++x)
 			{
 
-				int height = (int)(100* pow(noize((x + pos.x)*2 , (z + pos.z)*2 , 70),4)) + 1;
+ 				int height = (int)(100* pow(noize((x + pos.x)*2 , (z + pos.z)*2 , 70),4)) + 1;
 
 				if(y < height)
 				{
@@ -221,8 +221,6 @@ void ChunkSection::render(glm::vec3 position)
 					chunk_section_data.push_back(block);
 					
 				}
-
-
 			}
 		}
 	}
