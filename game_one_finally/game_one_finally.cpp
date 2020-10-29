@@ -8,9 +8,6 @@
 #include "World.h"
 
 
-
-
-
 Camera camera(glm::vec3(0.0f, 36.0f, 0.0f));
 
 bool keys[1024];
@@ -23,10 +20,6 @@ GLfloat lastX = 00, lastY = 00;
 
 bool flag = false;
 double FPS = 0;
-
-
-
-
 
 int main()
 {
@@ -42,8 +35,6 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	//Выключение возможности изменения размера окна
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-	
 
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game_nullptr", nullptr, nullptr);
 	if (window == nullptr)
@@ -70,33 +61,11 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-   
-
 
 	Shader shader_for_block("shaders/Vertex.ver", "shaders/Frag.fg");
-	
-
-
-
-
 	const char* path = { "objects/cube.obj" };
 	Database database(path);
-
-
-
-
-	
-	
-
-
-
-
 	World world_test(&database);
-	
-
-
-
-
 	while (!glfwWindowShouldClose(window))
 	{
 		
@@ -116,7 +85,7 @@ int main()
 
 		
 		glm::mat4 model;
-		const glm::mat4 projection = glm::perspective(camera.Zoom, static_cast<float>(SCR_WIDTH) / SCR_HEIGHT, 0.1f, 100.0f);
+		const glm::mat4 projection = glm::perspective(camera.Zoom, static_cast<float>(SCR_WIDTH) / SCR_HEIGHT, 0.1f, 300.0f);
 		const glm::mat4 view = camera.GetViewMatrix();
 		const float length = static_cast<float>(glfwGetTime());
 
@@ -170,7 +139,7 @@ void calculate_frame_rate(GLfloat current)
 
 void mouse_pos_callback(GLFWwindow* window, double x, double y)
 {
-	if (GLFW_CURSOR) 
+	if (GLFW_CURSOR)
 	{
 		mouse_x = (x - SCR_WIDTH / 2) / SCR_WIDTH * 2;
 		mouse_y = -(y - SCR_HEIGHT / 2) / SCR_HEIGHT * 2;

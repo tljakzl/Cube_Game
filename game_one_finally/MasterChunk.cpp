@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "MasterChunk.h"
 
-
-
 ChunkManager::ChunkManager()
 {
 }
@@ -30,18 +28,12 @@ void ChunkManager::create_area()
 				//Chunk chunk(cur_chunk_pos);
 				std::string key = std::to_string(j) + "x" + std::to_string(i);
 				area.emplace(key, cur_chunk_pos);
-			
-			
-		
-	
 		}
 	}
 
 	add_face_in_area();
 
 }
-
-
 
 std::string findd_chunk(glm::vec3 pos)
 {
@@ -62,28 +54,20 @@ std::string findd_chunk(glm::vec3 pos)
 	return  std::to_string(chunk_x) + "x" + std::to_string(chunk_z);
 }
 
-
-
-
-
 void ChunkManager::add_face_in_area()
 {
-	for (auto cur_chunk: this->area)
+	for (auto& cur_chunk : area)
 	{
-		for (auto section:cur_chunk.second.chunk_data)
+		for (auto& section : cur_chunk.second.chunk_data)
 		{
-			for (auto block:section.chunk_section_data)
+			for (auto& block : section.chunk_section_data)
 			{
-				if (block.notempty == false)
-				{
-					
+				if (!block.notempty){
 					GLfloat x = block.position_.x + 0.5;
 					GLfloat y = block.position_.y;
 					GLfloat z = block.position_.z + 0.5;
 				
 					glm::vec3 pos = { x,y,z };
-
-
 
 					glm::vec3 pos_top = { pos.x , pos.y - 1, pos.z };
 					std::string key_top = findd_chunk(pos_top);
@@ -103,7 +87,6 @@ void ChunkManager::add_face_in_area()
 					glm::vec3 pos_backward = { pos.x  , pos.y , pos.z + 1 };
 					std::string key_backward = findd_chunk(pos_backward);
 
-					
 						try
 						{
 							auto block_top = area.at(key_top).get_block(pos_top);
@@ -124,7 +107,7 @@ void ChunkManager::add_face_in_area()
 						}
 						catch (std::out_of_range err)
 						{
-							//std::cout << err.what() << std::endl;
+
 						}
 
 
@@ -132,7 +115,7 @@ void ChunkManager::add_face_in_area()
 						{
 							auto block_left = area.at(key_left).get_block(pos_left);
 							if (block_left->notempty == true)
-								block_left->indices.push_back(left_side);
+                                block_left->indices.push_back(left_side);
 						}
 						catch (std::out_of_range err)
 						{
@@ -173,16 +156,12 @@ void ChunkManager::add_face_in_area()
 						{
 							//std::cout << err.what() << std::endl;
 						}
-
-
-
-
-					
-				
-
-				
-
 				}
+				else
+                {
+                    if(block.position_.y == 15)
+                        block.indices.push_back(top_side);
+                }
 			}
 		}
 	}
