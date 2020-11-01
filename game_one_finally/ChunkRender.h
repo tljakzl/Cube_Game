@@ -9,7 +9,7 @@ class ChunkRender
 	Database* database_;
 	Chunk* chunk_;
 
-	void render(std::vector<blockInfo>);
+	void render(const std::vector<blockInfo>&);
 	void setup_mesh();
 	int block_count = 0;
 public:

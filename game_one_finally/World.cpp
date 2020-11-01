@@ -24,10 +24,10 @@ std::string find_chunk(glm::vec3 pos)
 World::World(Database* database):database_(database)
 {
 	world.create_area();
-	for (auto curr_chunk : world.area)
+	for (auto& curr_chunk : world.area)
 	{
 		ChunkRender rend_chunk(database_, &curr_chunk.second);
-		render.add_chunk(curr_chunk.first ,rend_chunk);
+		render.add_chunk(curr_chunk.first , std::move(rend_chunk));
 	}
 	
 }
@@ -39,7 +39,7 @@ World::~World()
 
 void World::draw(Shader* shader)
 {
-	this->render.draw_chunks(shader);
+	render.draw_chunks(shader);
 }
 
 
@@ -131,11 +131,6 @@ void World::delete_block(glm::vec3 pos)
 		{
 			std::cout << err.what() << std::endl;
 		}
-
-
-		
-			
-		
 
 		//need add top and bottom, and add function for update 
 	
