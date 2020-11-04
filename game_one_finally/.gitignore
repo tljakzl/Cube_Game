@@ -1,11 +1,3 @@
-GL/
-GLFW/
-foo
-cmake-build-debug/
-freetype2/
-glew.pc
-glew/
-glm/
-lib/
-lib*.*
-stb/
+bin/foo
+cmake-build-debug
+cmake-build-debug-coverage
