@@ -1,18 +1,18 @@
-[submodule "game_one_finally/libs/glfw"]
-	path = game_one_finally/libs/glfw
+[submodule "libs/glfw"]
+	path = libs/glfw
 	url = https://github.com/glfw/glfw
-[submodule "game_one_finally/libs/glew"]
-	path = game_one_finally/libs/glew
-	url = https://github.com/nigels-com/glew
-[submodule "game_one_finally/libs/glew-cmake"]
-	path = game_one_finally/libs/glew-cmake
+[submodule "libs/glew-cmake"]
+	path = libs/glew-cmake
 	url = https://github.com/Perlmint/glew-cmake
-[submodule "game_one_finally/libs/freetype2"]
-	path = game_one_finally/libs/freetype2
+[submodule "libs/freetype2"]
+	path = libs/freetype2
 	url = https://github.com/aseprite/freetype2
-[submodule "game_one_finally/libs/stb"]
-	path = game_one_finally/libs/stb
+[submodule "libs/stb"]
+	path = libs/stb
 	url = https://github.com/nothings/stb
-[submodule "game_one_finally/libs/glm"]
-	path = game_one_finally/libs/glm
+[submodule "libs/glm"]
+	path = libs/glm
+	url = https://github.com/g-truc/glm/
+[submodule "libs/--force"]
+	path = libs/--force
 	url = https://github.com/g-truc/glm/
