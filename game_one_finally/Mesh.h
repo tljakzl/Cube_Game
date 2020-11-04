@@ -34,7 +34,11 @@ public:
 	Mesh() {}
 	void Draw(Shader* shader);
 	void setupMesh();
+	void Setup();
+	void ClearData();
 private:
+    bool _setupFlag = false;
+    bool _clearDataFlag = false;
 	/*  Render data  */
 	unsigned int VAO, VBO, EBO;
 	/*  Functions    */

@@ -2,33 +2,31 @@
 #include "ChunkRender.h"
 
 
-ChunkRender::ChunkRender(Database* database,Chunk* chunk):database_(database),chunk_(chunk)
+ChunkRender::ChunkRender(Database* database,Chunk* chunk)
+    :database_(database)
+    ,chunk_(chunk)
 {
-	for (const auto curr_section : chunk_->chunk_data)
+	for (const auto& curr_section : chunk_->chunk_data)
 		render(curr_section.chunk_section_data);
 	setup_mesh();
 }
 
-
-ChunkRender::~ChunkRender()
-{
-}
-
 void ChunkRender::render(const std::vector<blockInfo>& curr_section)
 {
-	auto data_ver = database_->data.begin()->vertices;
+	auto data_ver = database_->GetVertices();
 
-	for (auto x : curr_section) {
+	for (auto& x : curr_section) {
 		if (x.notempty) {
-			for (auto cur_ind : x.indices) {
+			for (auto& cur_ind : x.indices) {
 				for (auto i = 0; i < 6; ++i) {
 					Vertex temp_ver;
-					temp_ver.Position = data_ver.at(cur_ind * 6 + i).Position + x.position_;
-					temp_ver.Normal = data_ver.at(cur_ind * 6 + i).Normal;
-					temp_ver.TexCoords = data_ver.at(cur_ind * 6 + i).TexCoords;
+					auto& dataVer = data_ver.at(cur_ind * 6 + i);
+					temp_ver.Position = dataVer.Position + x.position_;
+					temp_ver.Normal = dataVer.Normal;
+					temp_ver.TexCoords = dataVer.TexCoords;
 
-					chunk_mesh_.vertices.push_back(temp_ver);
-					chunk_mesh_.indices.push_back(block_count++);
+					_chunkMesh.vertices.push_back(temp_ver);
+					_chunkMesh.indices.push_back(block_count++);
 				}
 			}
 		}
@@ -51,12 +49,12 @@ void ChunkRender::render(const std::vector<blockInfo>& curr_section)
 				temp_ver.Position = k.Position + x.second.position_;
 				temp_ver.Normal = k.Normal;
 				temp_ver.TexCoords = k.TexCoords;
-				this->chunk_mesh_.vertices.push_back(temp_ver);
+				this->_chunkMesh.vertices.push_back(temp_ver);
 
 				for (auto cur_ind : x.second.indices)
 				{
 					for (auto number_point = 0; number_point < 6; ++number_point)
-						this->chunk_mesh_.indices.push_back(cur_ind * 6 + number_point + block_count);
+						this->_chunkMesh.indices.push_back(cur_ind * 6 + number_point + block_count);
 
 				}
 			}
@@ -68,25 +66,25 @@ void ChunkRender::render(const std::vector<blockInfo>& curr_section)
 
 void ChunkRender::setup_mesh()
 {
-	this->chunk_mesh_.textures = &database_->textures_loaded;
-	this->chunk_mesh_.setupMesh();
+	_chunkMesh.textures = &database_->textures_loaded;
+	_chunkMesh.Setup();
 }
 
 
 void ChunkRender::draw(Shader* shader)
 {
-	this->chunk_mesh_.Draw(shader);
+	_chunkMesh.Draw(shader);
 }
 
 
 void ChunkRender::update_mesh(std::vector<ChunkSection> data)
 {
 	block_count = 0;
-	this->chunk_mesh_.clear_data();
-	this->chunk_mesh_.indices.clear();
-	this->chunk_mesh_.indices.shrink_to_fit();
-	this->chunk_mesh_.vertices.clear();
-	this->chunk_mesh_.vertices.shrink_to_fit();
+	_chunkMesh.ClearData();
+	_chunkMesh.indices.clear();
+	_chunkMesh.indices.shrink_to_fit();
+	_chunkMesh.vertices.clear();
+	_chunkMesh.vertices.shrink_to_fit();
 
 	for (auto& curr_section : data)
 		render(curr_section.chunk_section_data);

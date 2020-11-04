@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 project(foo)
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
-
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 file(GLOB foo_SRC
         "*.h"
         "*.cpp"

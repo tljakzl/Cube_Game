@@ -10,8 +10,6 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Texture* textu
 	this->textures = textures;
 
 	setupMesh();
-
-	
 }
 
 void Mesh::Draw(Shader* shader)
@@ -32,6 +30,16 @@ void Mesh::Draw(Shader* shader)
 		shader.setFloat(("material." + name + number).c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}*/
+
+    if(_clearDataFlag) {
+        clear_data();
+        _clearDataFlag = false;
+    }
+
+    if(_setupFlag) {
+        setupMesh();
+        _setupFlag = false;
+    }
 
 	shader->Use();
 	shader->setInt("texture", 0);
@@ -72,8 +80,6 @@ void Mesh::setupMesh()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, TexCoords)));
 
 	glBindVertexArray(0);
-
-	
 }
 
 
@@ -82,8 +88,14 @@ void Mesh::clear_data()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+}
 
+void Mesh::ClearData() {
+    _clearDataFlag = true;
+}
 
+void Mesh::Setup() {
+    _setupFlag = true;
 }
 
 

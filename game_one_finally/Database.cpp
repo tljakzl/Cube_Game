@@ -193,3 +193,7 @@ Database::Database(const char* path)
 Database::~Database()
 {
 }
+
+std::vector<Vertex> Database::GetVertices() const {
+    return data.begin()->vertices;
+}

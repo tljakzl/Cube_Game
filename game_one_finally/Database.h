@@ -18,6 +18,7 @@ public:
 	Texture textures_loaded;
 	string directory;
 	vector<Mesh> data;
+    std::vector<Vertex> GetVertices() const;
 	Database(const char* path);
 	~Database();
 };

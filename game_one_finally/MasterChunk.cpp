@@ -12,7 +12,6 @@ ChunkManager::~ChunkManager()
 
 void ChunkManager::create_area()
 {
-	
 	glm::vec3 cur_chunk_pos = chunk_position_;
 	for (auto j = x0; j <= x1 ; ++j)
 	{
@@ -30,9 +29,6 @@ void ChunkManager::create_area()
 				area.emplace(key, cur_chunk_pos);
 		}
 	}
-
-	add_face_in_area();
-
 }
 
 std::string findd_chunk(glm::vec3 pos)
@@ -166,6 +162,10 @@ void ChunkManager::add_face_in_area()
 		}
 	}
 
+}
+
+std::unordered_map<std::string, Chunk> &ChunkManager::GetArea() {
+    return area;
 }
 
 

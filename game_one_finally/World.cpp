@@ -21,15 +21,16 @@ std::string find_chunk(glm::vec3 pos)
 	return  std::to_string(chunk_x) + "x" + std::to_string(chunk_z);
 }
 
-World::World(Database* database):database_(database)
+World::World(Database* database)
+    :database_(database)
+    , _mutex()
 {
 	world.create_area();
-	for (auto& curr_chunk : world.area)
-	{
-		ChunkRender rend_chunk(database_, &curr_chunk.second);
-		render.add_chunk(curr_chunk.first , std::move(rend_chunk));
-	}
-	
+    for (auto& curr_chunk : world.GetArea())
+    {
+        ChunkRender rend_chunk(database_, &curr_chunk.second);
+        render.add_chunk(curr_chunk.first , std::move(rend_chunk));
+    }
 }
 
 
@@ -39,13 +40,17 @@ World::~World()
 
 void World::draw(Shader* shader)
 {
-	render.draw_chunks(shader);
+    std::unique_lock<std::mutex> lock {_mutex};
+    if(lock)
+    {
+        render.draw_chunks(shader);
+    }
 }
 
 
 void World::delete_block(glm::vec3 pos)
 {
-	std::string key = find_chunk(pos);
+	/*std::string key = find_chunk(pos);
 	glm::vec3 pos_left = { pos.x + 1, pos.y, pos.z };
 	std::string key_left = find_chunk(pos_left);
 
@@ -140,7 +145,7 @@ void World::delete_block(glm::vec3 pos)
 	catch (...)
 	{
 		throw;
-	}
+	}*/
 }
 
 

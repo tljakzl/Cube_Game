@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Database.h"
 #include "World.h"
+#include <thread>
 
 
 Camera camera(glm::vec3(0.0f, 36.0f, 0.0f));
@@ -66,37 +67,41 @@ int main()
 	const char* path = { "objects/cube.obj" };
 	Database database(path);
 	World world_test(&database);
+
+    auto&& runIt = [&world_test]() {
+        world_test.world.add_face_in_area();
+        for (auto& curr_chunk : world_test.world.GetArea()) {
+            std::unique_lock<std::mutex> lock {world_test._mutex};
+            if(lock) {
+                world_test.render.update_chunk(curr_chunk.first, curr_chunk.second.chunk_data);
+            }
+        }
+    };
+
+    std::thread addFaces(runIt);
+    addFaces.detach();
+
 	while (!glfwWindowShouldClose(window))
 	{
-		
 		GLfloat currentFrame = glfwGetTime();
-		
 
 		calculate_frame_rate(currentFrame);
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		
 
 		glfwPollEvents();
 		do_movement();
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
 
-		
 		glm::mat4 model;
-		const glm::mat4 projection = glm::perspective(camera.Zoom, static_cast<float>(SCR_WIDTH) / SCR_HEIGHT, 0.1f, 300.0f);
+		const glm::mat4 projection = glm::perspective(camera.Zoom, static_cast<float>(SCR_WIDTH) / SCR_HEIGHT, 0.1f, 500.0f);
 		const glm::mat4 view = camera.GetViewMatrix();
 		const float length = static_cast<float>(glfwGetTime());
-
 		
 		shader_for_block.setM4fv("model", model);
 		shader_for_block.setM4fv("view", view);
 		shader_for_block.setM4fv("projection", projection);
-
-
-		
-
 
 		world_test.draw(&shader_for_block);
 		if (flag)
