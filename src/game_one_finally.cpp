@@ -86,7 +86,6 @@ int main()
         world_test.world.add_face_in_area(world_test.render);
     };
     std::thread addFaces(runIt);
-    addFaces.detach();
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -129,6 +128,7 @@ int main()
 	
 		glfwSwapBuffers(window);
 	}
+	addFaces.join();
 	glfwTerminate();
 	return 0;
 }
