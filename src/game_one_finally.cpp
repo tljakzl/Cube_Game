@@ -7,9 +7,10 @@
 #include "Database.h"
 #include "World.h"
 #include <thread>
+#include <filesystem>
 
 
-Camera camera(glm::vec3(0.0f, 36.0f, 0.0f));
+Camera camera(glm::vec3(5.0f, 121.0f, 26.0f));
 
 bool keys[1024];
 float mouse_x = 0.0;
@@ -63,15 +64,27 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	Shader shader_for_block("shaders/Vertex.ver", "shaders/Frag.fg");
-	const char* path = { "objects/cube.obj" };
-	Database database(path);
+	namespace fs = std::filesystem;
+	auto currentPath(fs::current_path());
+    fs::path shaderPathVer{ "/shaders/Vertex.ver" };
+    fs::path shaderPathFrag{ "/shaders/Frag.fg" };
+    fs::path objectsPath{ "/objects/cube.obj" };
+    
+    auto shaderPath1 = currentPath;
+    auto shaderPath2 = currentPath;
+    auto databasePath = currentPath;
+
+	shaderPath1 += shaderPathVer;
+    shaderPath2 += shaderPathFrag;
+    databasePath += objectsPath;
+
+	Shader shader_for_block(shaderPath1.u8string().c_str(), shaderPath2.u8string().c_str());
+	Database database(databasePath.u8string().c_str());
 	World world_test(&database);
 
     auto&& runIt = [&world_test]() {
         world_test.world.add_face_in_area(world_test.render);
     };
-
     std::thread addFaces(runIt);
     addFaces.detach();
 
