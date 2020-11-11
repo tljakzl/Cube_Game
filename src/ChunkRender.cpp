@@ -25,8 +25,8 @@ void ChunkRender::render(const std::vector<blockInfo>& curr_section)
 					temp_ver.Normal = dataVer.Normal;
 					temp_ver.TexCoords = dataVer.TexCoords;
 
-					_chunkMesh.vertices.push_back(temp_ver);
-					_chunkMesh.indices.push_back(block_count++);
+					_chunkMesh.AddVertices(temp_ver);
+					_chunkMesh.AddIndices(block_count++);
 				}
 			}
 		}
@@ -66,7 +66,7 @@ void ChunkRender::render(const std::vector<blockInfo>& curr_section)
 
 void ChunkRender::setup_mesh()
 {
-	_chunkMesh.textures = &database_->textures_loaded;
+	_chunkMesh.setTexture(&database_->textures_loaded);
 	_chunkMesh.Setup();
 }
 
@@ -81,10 +81,8 @@ void ChunkRender::update_mesh(const std::vector<ChunkSection>& data)
 {
 	block_count = 0;
 	_chunkMesh.ClearData();
-	_chunkMesh.indices.clear();
-	_chunkMesh.indices.shrink_to_fit();
-	_chunkMesh.vertices.clear();
-	_chunkMesh.vertices.shrink_to_fit();
+	_chunkMesh.ClearVertices();
+	_chunkMesh.ClearIndices();
 
 	for (auto& curr_section : data)
 		render(curr_section.chunk_section_data);

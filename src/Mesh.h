@@ -6,7 +6,6 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
-using namespace std;
 
 struct Vertex {
 	glm::vec3 Position;
@@ -16,31 +15,36 @@ struct Vertex {
 
 struct Texture {
 	unsigned int id;
-	string type;
-	string path;
+	std::string type;
+	std::string path;
 };
 
 
 class Mesh {
 public:
-	//void set_texture(Shader shader);
-	void clear_data();
-	/*  Mesh Data  */
-	vector<Vertex> vertices;
-	vector<unsigned int> indices;
-	Texture* textures;
-	/*  Functions  */
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, Texture* textures);
-	Mesh() {}
+    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture* textures);
+	Mesh() = default;
 	void Draw(Shader* shader);
 	void setupMesh();
 	void Setup();
 	void ClearData();
+    void clear_data();
+    void AddVertices(const Vertex& vertex);
+    void AddIndices(unsigned int indice);
+    void ClearVertices();
+    void ClearIndices();
+    void setTexture(Texture* texturePtr);
+
+     std::vector<Vertex> GetVertices() const {return _vertices;}
+     std::vector<unsigned int> GetIndices() const {return _indices;}
+     Texture* GetTexture() const {return _texture;}
 private:
     bool _setupFlag = false;
     bool _clearDataFlag = false;
-	/*  Render data  */
-	unsigned int VAO, VBO, EBO;
-	/*  Functions    */
-	
+	unsigned int VAO{};
+    unsigned int VBO{};
+    unsigned int EBO{};
+    Texture* _texture{};
+    std::vector<Vertex> _vertices;
+    std::vector<unsigned int> _indices;
 };

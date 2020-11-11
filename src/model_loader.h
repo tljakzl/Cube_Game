@@ -20,7 +20,7 @@ struct node
 {
 	
 };
-struct mesh
+struct mesh_model
 {
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normals;
@@ -33,7 +33,7 @@ struct scene
 {
 	int			 flags;
 	node		 rootNode;
-	mesh	     meshes;
+    mesh_model	     meshes;
 	//Material** mMaterials;
 };
 
@@ -41,7 +41,6 @@ class model_loader
 {
 
 public:
-	std::string GetErrorString() {}
 	scene read_file(const char*);
 	model_loader();
 	~model_loader();

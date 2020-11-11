@@ -3,7 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
+unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma = false);
 
 void Database::loadModel(std::string path)
 {
@@ -94,7 +94,7 @@ Mesh Database::processMesh(const scene& scene)
 		material material = scene->mMaterials[mesh->mMaterialIndex];
 		std::vector<Texture> diffuseMaps = loadMaterialTextures(material, textureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		/*std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+		std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}*/
 
@@ -142,9 +142,9 @@ Mesh Database::processMesh(const scene& scene)
 
 
 
-unsigned int TextureFromFile(const char *path, const string &directory, bool gamma)
+unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma)
 {
-	string filename = string(path);
+	std::string filename(path);
 	filename = directory + '/' + filename;
 
 	unsigned int textureID;
@@ -195,5 +195,5 @@ Database::~Database()
 }
 
 std::vector<Vertex> Database::GetVertices() const {
-    return data.begin()->vertices;
+    return data.begin()->GetVertices();
 }

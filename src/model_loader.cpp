@@ -36,13 +36,13 @@ scene model_loader::read_file(const char* path)
 	std::vector<glm::vec2> temp_vector_texCord;
 
 
-	mesh out_mesh;
+    mesh_model out_mesh;
 
 	file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try
 	{
 		file.open(path);
-		std::string currentWord;
+ 		std::string currentWord;
 
 		while (!file.eof())
 		{

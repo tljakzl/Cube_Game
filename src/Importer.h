@@ -65,8 +65,7 @@ struct aiScene
 class Importer
 {
 public:
-	std::string GetErrorString(){}
-	aiScene& ReadFile(std::string, const int){}
+	//aiScene& ReadFile(std::string, const int){}
 	Importer();
 	~Importer();
 };

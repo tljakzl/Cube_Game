@@ -30,8 +30,7 @@ void RenderMaster::draw_chunks(Shader* shader)
     std::unique_lock<std::mutex> lock{_chunkMeshesMutex};
     if(lock)
     {
-        for (auto& cur_chunk : chunk_meshes)
-        {
+        for (auto& cur_chunk : chunk_meshes) {
             cur_chunk.second.draw(shader);
         }
     }

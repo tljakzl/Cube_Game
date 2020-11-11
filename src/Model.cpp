@@ -20,30 +20,30 @@ void Model::set_position(const char* path, glm::vec3 position)
 void Model::load_data(Database database)
 {
 
-	vector<Vertex> vertices;
-	vector<unsigned int> indices;
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
     Texture* textures;
 
 	auto data = database.data.begin();
-	for (auto i = data->vertices.begin();i< data->vertices.end();++i)
+	for (auto& i : data->GetVertices())
 	{
 		Vertex temp_ver;
-		temp_ver.Position  = i->Position + position_;
-		temp_ver.Normal    = i->Normal;
-		temp_ver.TexCoords = i->TexCoords;
+		temp_ver.Position  = i.Position + position_;
+		temp_ver.Normal    = i.Normal;
+		temp_ver.TexCoords = i.TexCoords;
 		vertices.push_back(temp_ver);
 	}
 
-	indices = data->indices;
-	textures = data->textures;
+	indices = data->GetIndices();
+	textures = data->GetTexture();
 	this->meshes.emplace_back(vertices, indices, textures);
 }
 
 
 void Model::load_data(Database database, std::vector<unsigned>* sides)
 {
-	vector<Vertex> vertices;
-	vector<unsigned int> indices;
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
 	Texture* textures;
 
 	auto data = database.data.begin();
@@ -56,7 +56,7 @@ void Model::load_data(Database database, std::vector<unsigned>* sides)
 		vertices.push_back(temp_ver);
 	}*/
 
-	auto ver = data->vertices;
+	auto ver = data->GetVertices();
 	for (auto j = sides->begin(); j < sides->end(); ++j)
 		for (auto i = 0; i < 6; ++i)
 		{
@@ -73,7 +73,7 @@ void Model::load_data(Database database, std::vector<unsigned>* sides)
 	for(auto j = sides->begin(); j< sides->end();++j)
 	for (auto i = 0; i < 6; ++i)
 		indices.push_back(*j * 6 + i);
-	textures = data->textures;
+	textures = data->GetTexture();
 	this->meshes.emplace_back(vertices, indices, textures);
 }
 

@@ -17,8 +17,6 @@ class Model
 {
 public:
 
-	
-
 	Model(const Database database,glm::vec3 position = { 0.0f,0.0f,0.0f }):position_(position)
 	{
 		load_data(database);
@@ -36,11 +34,7 @@ private:
 	void load_data(Database database,std::vector<unsigned>* sides);
 
 	glm::vec3 position_;
-	vector<Mesh> meshes;
-
-	
-
-	
+	std::vector<Mesh> meshes;
 };
 
 

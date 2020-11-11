@@ -86,8 +86,10 @@ void ChunkManager::add_face_in_area(RenderMaster& render)
 						try
 						{
 							auto block_top = area.at(key_top).get_block(pos_top);
-							if (block_top->notempty == true)
-								block_top->indices.push_back(top_side);
+							if (block_top->notempty == true) {
+                                block_top->indices.push_back(top_side);
+                            }
+
 						}
 						catch (std::out_of_range err)
 						{
@@ -98,8 +100,10 @@ void ChunkManager::add_face_in_area(RenderMaster& render)
 						try
 						{
 							auto block_bottom = area.at(key_bottom).get_block(pos_bottom);
-							if (block_bottom->notempty == true)
-								block_bottom->indices.push_back(bottom_side);
+							if (block_bottom->notempty == true) {
+                                block_bottom->indices.push_back(bottom_side);
+                            }
+
 						}
 						catch (std::out_of_range err)
 						{
@@ -110,8 +114,9 @@ void ChunkManager::add_face_in_area(RenderMaster& render)
 						try
 						{
 							auto block_left = area.at(key_left).get_block(pos_left);
-							if (block_left->notempty == true)
+							if (block_left->notempty == true) {
                                 block_left->indices.push_back(left_side);
+                            }
 						}
 						catch (std::out_of_range err)
 						{
@@ -121,8 +126,9 @@ void ChunkManager::add_face_in_area(RenderMaster& render)
 						try
 						{
 							auto block_forward = area.at(key_forward).get_block(pos_forward);
-							if (block_forward->notempty == true)
-								block_forward->indices.push_back(forward_side);
+							if (block_forward->notempty == true) {
+                                block_forward->indices.push_back(forward_side);
+                            }
 						}
 						catch (std::out_of_range err)
 						{
@@ -132,8 +138,10 @@ void ChunkManager::add_face_in_area(RenderMaster& render)
 						try
 						{
 							auto block_backward = area.at(key_backward).get_block(pos_backward);
-							if (block_backward->notempty == true)
-								block_backward->indices.push_back(backward_side);
+							if (block_backward->notempty == true) {
+                                block_backward->indices.push_back(backward_side);
+                            }
+
 						}
 						catch (std::out_of_range err)
 						{
@@ -143,8 +151,9 @@ void ChunkManager::add_face_in_area(RenderMaster& render)
 						try
 						{
 							auto block_right = area.at(key_right).get_block(pos_right);
-							if (block_right->notempty == true)
-								block_right->indices.push_back(right_side);
+							if (block_right->notempty == true) {
+                                block_right->indices.push_back(right_side);
+                            }
 						}
 						catch (std::out_of_range err)
 						{
@@ -153,8 +162,9 @@ void ChunkManager::add_face_in_area(RenderMaster& render)
 				}
 				else
                 {
-                    if(block.position_.y == 15)
+                    if(block.position_.y == 15) {
                         block.indices.push_back(top_side);
+                    }
                 }
 			}
 		}
