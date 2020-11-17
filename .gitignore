@@ -3,3 +3,5 @@ cmake-build-debug/
 cmake-build-coverage/
 .idea
 build/
+.ilk
+.pdb
