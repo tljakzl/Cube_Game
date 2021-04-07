@@ -59,21 +59,13 @@ void ChunkManager::add_face_in_area(RenderMaster& render)
 			for (auto& block : section.chunk_section_data)
 			{
 				if (!block.notempty){
-					GLfloat x = block.position_.x + 0.5;
-					GLfloat y = block.position_.y;
-					GLfloat z = block.position_.z + 0.5;
-				
-					glm::vec3 pos = { x,y,z };
+					glm::vec3 pos(block.position_ + glm::vec3(.5f, 0.f, .5f));
 
-					auto&& addSide = [this](const glm::vec3& pos, blockSide side){
-
-                        std::string key_top = findd_chunk(pos);
-                        if (auto&& foundBlock = area.find(key_top); foundBlock != area.end())
+					auto&& addSide = [this](const glm::vec3&& pos, blockSide side){
+                        if (auto&& foundBlock = area.find(findd_chunk(pos)); foundBlock != area.end())
                         {
-                            if(auto&& block = foundBlock->second.get_block(pos)) {
-                                if (block->notempty == true) {
-                                    block->indices.push_back(side);
-                                }
+                            if (auto&& block = foundBlock->second.get_block(pos); block && block->notempty) {
+                                block->indices.push_back(side);
                             }
                         }
 					};
