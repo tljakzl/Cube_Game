@@ -65,100 +65,25 @@ void ChunkManager::add_face_in_area(RenderMaster& render)
 				
 					glm::vec3 pos = { x,y,z };
 
-					glm::vec3 pos_top = { pos.x , pos.y - 1, pos.z };
-					std::string key_top = findd_chunk(pos_top);
+					auto&& addSide = [this](const glm::vec3& pos, blockSide side){
 
-					glm::vec3 pos_bottom = { pos.x , pos.y + 1, pos.z };
-					std::string key_bottom = findd_chunk(pos_bottom);
-
-					glm::vec3 pos_left = { pos.x + 1 , pos.y , pos.z };
-					std::string key_left = findd_chunk(pos_left);
-
-					glm::vec3 pos_right = { pos.x - 1 , pos.y , pos.z };
-					std::string key_right = findd_chunk(pos_right);
-
-					glm::vec3 pos_forward = { pos.x  , pos.y , pos.z - 1 };
-					std::string key_forward = findd_chunk(pos_forward);
-
-					glm::vec3 pos_backward = { pos.x  , pos.y , pos.z + 1 };
-					std::string key_backward = findd_chunk(pos_backward);
-
-						try
-						{
-							auto block_top = area.at(key_top).get_block(pos_top);
-							if (block_top->notempty == true) {
-                                block_top->indices.push_back(top_side);
+                        std::string key_top = findd_chunk(pos);
+                        if (auto&& foundBlock = area.find(key_top); foundBlock != area.end())
+                        {
+                            if(auto&& block = foundBlock->second.get_block(pos)) {
+                                if (block->notempty == true) {
+                                    block->indices.push_back(side);
+                                }
                             }
+                        }
+					};
 
-						}
-						catch (std::out_of_range err)
-						{
-							//std::cout << err.what() << std::endl;
-						}
-
-
-						try
-						{
-							auto block_bottom = area.at(key_bottom).get_block(pos_bottom);
-							if (block_bottom->notempty == true) {
-                                block_bottom->indices.push_back(bottom_side);
-                            }
-
-						}
-						catch (std::out_of_range err)
-						{
-
-						}
-
-
-						try
-						{
-							auto block_left = area.at(key_left).get_block(pos_left);
-							if (block_left->notempty == true) {
-                                block_left->indices.push_back(left_side);
-                            }
-						}
-						catch (std::out_of_range err)
-						{
-							//std::cout << err.what() << std::endl;
-						}
-
-						try
-						{
-							auto block_forward = area.at(key_forward).get_block(pos_forward);
-							if (block_forward->notempty == true) {
-                                block_forward->indices.push_back(forward_side);
-                            }
-						}
-						catch (std::out_of_range err)
-						{
-							//std::cout << err.what() << std::endl;
-						}
-
-						try
-						{
-							auto block_backward = area.at(key_backward).get_block(pos_backward);
-							if (block_backward->notempty == true) {
-                                block_backward->indices.push_back(backward_side);
-                            }
-
-						}
-						catch (std::out_of_range err)
-						{
-							//std::cout << err.what() << std::endl;
-						}
-
-						try
-						{
-							auto block_right = area.at(key_right).get_block(pos_right);
-							if (block_right->notempty == true) {
-                                block_right->indices.push_back(right_side);
-                            }
-						}
-						catch (std::out_of_range err)
-						{
-							//std::cout << err.what() << std::endl;
-						}
+                    addSide(glm::vec3(pos.x, pos.y - 1, pos.z), top_side);
+                    addSide(glm::vec3(pos.x, pos.y + 1, pos.z), bottom_side);
+                    addSide(glm::vec3(pos.x + 1, pos.y, pos.z), left_side);
+                    addSide(glm::vec3(pos.x - 1, pos.y, pos.z), right_side);
+                    addSide(glm::vec3(pos.x, pos.y, pos.z - 1), forward_side);
+                    addSide(glm::vec3(pos.x, pos.y, pos.z + 1), backward_side);
 				}
 				else
                 {
