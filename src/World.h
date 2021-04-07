@@ -7,16 +7,21 @@ class World
 {
 
 public:
-	ChunkManager world;
-	World(Database* database);
-	void draw(Shader* shader);
-	void delete_block(glm::vec3 pos);
-	~World();
-    std::mutex _mutex;
-    RenderMaster render;
+
+	explicit World(Database* database);
+	virtual ~World() = default;
+
+	void Draw(Shader* shader);
+	void DeleteBlock(const glm::vec3& pos);
+	ChunkManager& GetChunkManager();
+	RenderMaster& GetRenderMaster();
+	const ChunkManager& GetChunkManager() const;
+	const RenderMaster& GetRenderMaster() const;
+
 private:
-    Database* database_;
-
-
+	Database* _database;
+	std::mutex _mutex;
+	RenderMaster _renderMaster;
+	ChunkManager _chunkManager;
 };
 

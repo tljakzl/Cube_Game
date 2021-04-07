@@ -51,6 +51,9 @@ else()
 	target_link_libraries(foo GL)
 endif()
 
+# add source
+target_include_directories(foo PUBLIC ${SRCDIR})
+
 # add glfw
 target_include_directories(foo PRIVATE ${LIBSDIR}/glfw/include)
 add_subdirectory(${LIBSDIR}/glfw)

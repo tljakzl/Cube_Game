@@ -59,14 +59,13 @@ int main()
 		glm::mat4 model;
 		const glm::mat4 projection = glm::perspective(camera.Zoom, static_cast<float>(Core::SCR_WIDTH) / Core::SCR_HEIGHT, 0.1f, 500.0f);
 		const glm::mat4 view = camera.GetViewMatrix();
-		const float length = static_cast<float>(glfwGetTime());
 		
 		shader_for_block.setM4fv("model", model);
 		shader_for_block.setM4fv("view", view);
 		shader_for_block.setM4fv("projection", projection);
 
-		world_test.draw(&shader_for_block);
-		if (flag)
+        world.Draw(&shader_for_block);
+		if (false)
 		{
 			try 
 			{
@@ -74,7 +73,7 @@ int main()
 				float  beta = camera.Yaw;
 				float  alpha_ = glm::radians(alpha);
 				float  beta_ = glm::radians(beta);
-				world_test.delete_block(glm::vec3(camera.Position.x + cos(beta_) * cos(alpha_), camera.Position.y + sin(alpha_), cos(alpha_)*sin(beta_) + camera.Position.z));
+                world.DeleteBlock(glm::vec3(camera.Position.x + cos(beta_) * cos(alpha_), camera.Position.y + sin(alpha_), cos(alpha_)*sin(beta_) + camera.Position.z));
 			}
 			catch (std::out_of_range t) {
 				std::cout << t.what() << std::endl;

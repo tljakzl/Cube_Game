@@ -1,54 +1,45 @@
 #include "pch.h"
 #include "World.h"
-#include "Chunk.h"
-
-std::string find_chunk(glm::vec3 pos)
-{
-	float num_x = pos.x / 16;
-	int counter = 0;
-	float num_z = pos.z / 16;
-
-	if (num_x >= 0)
-		counter = 1;
-	else counter = -1;
-	int chunk_x = (int)(pos.x / 16) + counter;
-
-	if (num_z >= 0)
-		counter = 1;
-	else counter = -1;
-	int chunk_z = (int)(pos.z / 16) + counter;
-
-	return  std::to_string(chunk_x) + "x" + std::to_string(chunk_z);
-}
 
 World::World(Database* database)
-    :database_(database)
+    : _database(database)
     , _mutex()
 {
-	world.create_area();
-    for (auto& curr_chunk : world.GetArea())
+    _chunkManager.create_area();
+    for (auto& curr_chunk : _chunkManager.GetArea())
     {
-        ChunkRender rend_chunk(database_, &curr_chunk.second);
-        render.add_chunk(curr_chunk.first , std::move(rend_chunk));
+        ChunkRender rend_chunk(_database, &curr_chunk.second);
+        _renderMaster.add_chunk(curr_chunk.first , std::move(rend_chunk));
     }
 }
 
-
-World::~World()
-{
+const ChunkManager &World::GetChunkManager() const {
+    return _chunkManager;
 }
 
-void World::draw(Shader* shader)
+const RenderMaster &World::GetRenderMaster() const {
+    return _renderMaster;
+}
+
+ChunkManager& World::GetChunkManager() {
+    return _chunkManager;
+}
+
+RenderMaster &World::GetRenderMaster() {
+    return _renderMaster;
+}
+
+void World::Draw(Shader* shader)
 {
     std::unique_lock<std::mutex> lock {_mutex};
     if(lock)
     {
-        render.draw_chunks(shader);
+        _renderMaster.draw_chunks(shader);
     }
 }
 
 
-void World::delete_block(glm::vec3 pos)
+void World::DeleteBlock(const glm::vec3& pos)
 {
 	/*std::string key = find_chunk(pos);
 	glm::vec3 pos_left = { pos.x + 1, pos.y, pos.z };
@@ -147,6 +138,3 @@ void World::delete_block(glm::vec3 pos)
 		throw;
 	}*/
 }
-
-
-
