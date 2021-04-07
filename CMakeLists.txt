@@ -22,6 +22,8 @@ set(BINDIR ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 file(GLOB foo_SRC
         "${SRCDIR}/*.h"
         "${SRCDIR}/*.cpp"
+		"${SRCDIR}/engine/Window/*.h"
+		"${SRCDIR}/engine/Window/*.cpp"
         )
 add_executable(foo ${foo_SRC})
 
