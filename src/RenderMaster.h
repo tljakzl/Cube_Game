@@ -7,7 +7,7 @@
 class RenderMaster
 {
 	std::vector<Mesh*> meshes_data_;
-	std::unordered_map<std::string,ChunkRender> chunk_meshes;
+	std::unordered_map<std::string, ChunkRender> chunk_meshes;
 	std::mutex _chunkMeshesMutex;
 
 public:

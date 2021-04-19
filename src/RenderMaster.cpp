@@ -35,7 +35,7 @@ void RenderMaster::draw_chunks(Shader* shader)
         }
     }
 }
-void RenderMaster::add_chunk(std::string key,ChunkRender&& chunk)
+void RenderMaster::add_chunk(std::string key, ChunkRender&& chunk)
 {
     std::unique_lock<std::mutex> lock{_chunkMeshesMutex};
     if(lock) {
