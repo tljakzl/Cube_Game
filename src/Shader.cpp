@@ -91,7 +91,7 @@ Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
 
 void Shader::Use()
 {
-	glUseProgram(this->Program);
+	glUseProgram(Program);
 }
 
 void Shader::setInt(const std::string &name, int value) const
@@ -112,3 +112,5 @@ void Shader::set_vec2(const std::string &name ,glm::vec2 vec)
 {
 	glUniform2f(glGetUniformLocation(Program, name.c_str()), vec.x, vec.y);
 }
+
+
