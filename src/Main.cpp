@@ -7,6 +7,31 @@
 #include <thread>
 #include <filesystem>
 
+std::string GetDebugInformation(int FPS)
+{
+    float chunkSize = 16.f;
+    auto camera = Core::GetCamera();
+    float num_x = camera->Position.x / chunkSize;
+    int counter = 0;
+    float num_z = camera->Position.z / chunkSize;
+
+    if (num_x >= 0)
+        counter = 1;
+    else counter = -1;
+    int chunk_x = (int)(camera->Position.x / chunkSize) + counter;
+
+    if (num_z >= 0)
+        counter = 1;
+    else counter = -1;
+    int chunk_z = (int)(camera->Position.z / chunkSize) + counter;
+
+    std::stringstream buf ;
+    buf << "Position:(" << camera->Position.x << "," << camera->Position.y << "," << camera->Position.z << ")" << std::endl;
+    buf << "NumChunk:(" << chunk_x << ","  << chunk_z << ")" << std::endl;
+    buf << "FPS: " + std::to_string(FPS) << std::endl;
+
+    return buf.str();
+}
 
 int main()
 {

@@ -1,6 +1,7 @@
 //
 // Created by kozlov-an on 07.04.2021.
 //
+#include <sstream>
 #include "pch.h"
 #include "Window.h"
 
@@ -58,6 +59,7 @@ namespace Core {
         glfwSetCursorPosCallback(window, MouseCallback);
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         glfwSetScrollCallback(window, ScrollCallback);
+        //glfwSwapInterval( 0 ); Вертикальная сихронизация
 
         glewExperimental = GL_TRUE;
 
@@ -98,20 +100,6 @@ namespace Core {
 
     void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
     {
-        float num_x = camera.Position.x / 16;
-        int counter = 0;
-        float num_z = camera.Position.z / 16;
-
-        if (num_x >= 0)
-            counter = 1;
-        else counter = -1;
-        int chunk_x = (int)(camera.Position.x / 16) + counter;
-
-        if (num_z >= 0)
-            counter = 1;
-        else counter = -1;
-        int chunk_z = (int)(camera.Position.z / 16) + counter;
-
         if (action == GLFW_PRESS)
             keys[key] = true;
         else if (action == GLFW_RELEASE)
@@ -121,11 +109,6 @@ namespace Core {
         {
             switch (key)
             {
-                case GLFW_KEY_1:
-
-                    std::cout << "Position:(" << camera.Position.x << "," << camera.Position.y << "," << camera.Position.z << ")" << std::endl;
-                    std::cout << "NumChunk:(" << chunk_x << ","  << chunk_z << ")" << std::endl;
-                    break;
                 case GLFW_KEY_ESCAPE:
                     glfwSetWindowShouldClose(window, GL_TRUE);
                     break;
@@ -188,25 +171,30 @@ namespace Core {
         camera.ProcessMouseScroll(yoffset);
     }
 
-    void ChangeDeltaTime()
+    int ChangeDeltaTime()
     {
-        GLfloat currentFrame = glfwGetTime();
+        auto currentFrame = glfwGetTime();
 
-        CalculateFrameRate(currentFrame);
+        auto FPS = CalculateFrameRate(currentFrame);
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+        return FPS;
     }
 
-    void CalculateFrameRate(float current)
+    int CalculateFrameRate(float current)
     {
         static double last = 0.0;
         static int FPS = 0;
         ++FPS;
+        static int out_FPS = 0;
         if (current - last >= 1.0f)
         {
-            std::cout << "FPS:" << FPS << std::endl;
+            out_FPS = FPS;
+            std::cout << "FPS:" << out_FPS << std::endl;
             FPS = 0;
             last = current;
         }
+
+        return out_FPS;
     }
 }

@@ -20,8 +20,8 @@ namespace Core
     void MouseCallback(GLFWwindow* window, double xpos, double ypos);
     void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
     Camera* GetCamera();
-    void ChangeDeltaTime();
+    int ChangeDeltaTime();
     void DoMovement();
-    void CalculateFrameRate(float current);
+    int CalculateFrameRate(float current);
 }
 
