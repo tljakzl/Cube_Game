@@ -44,15 +44,14 @@ void Mesh::Draw(Shader* shader) {
         _setupFlag = false;
     }
 
-    shader->Use();
-    shader->setInt("texture", 0);
     glBindTexture(GL_TEXTURE_2D, _texture->id);
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE1);
 
     // draw mesh
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Mesh::setupMesh()
