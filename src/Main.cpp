@@ -74,8 +74,8 @@ int main()
     auto&& runIt = [&world]() {
         world.GetChunkManager().add_face_in_area(world.GetRenderMaster());
     };
-    std::thread addFaces(runIt);
 
+    std::thread addFaces(runIt);
     Shader shader("shaders/text.vs", "shaders/text.fs");
     glm::mat4 projectionText = glm::ortho(0.0f, static_cast<float>(Core::SCR_WIDTH), 0.0f, static_cast<float>(Core::SCR_HEIGHT));
     Text testText;
@@ -96,20 +96,17 @@ int main()
 
 		// TODO нужно прибрать куда-то шейдер, все настройки для шейдера должны вызываться до отрисовки мира и после Use!!!
         shader_for_block.Use();
-        shader_for_block.setInt("texture", 1);
-		shader_for_block.setM4fv("model", model);
-		shader_for_block.setM4fv("view", view);
-		shader_for_block.setM4fv("projection", projection);
+        shader_for_block.SetInt("texture", 1);
+		shader_for_block.SetM4fv("model", model);
+		shader_for_block.SetM4fv("view", view);
+		shader_for_block.SetM4fv("projection", projection);
 
         world.Draw(&shader_for_block);
 
         glEnable(GL_BLEND);
-
         testText.RenderText(shader, GetDebugInformation(FPS), 0.0f, Core::SCR_HEIGHT - 70.f, 1.0f, glm::vec3(0.6, 0.8f, 0.9f), projectionText);
         //testText.RenderText(shader, , 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f), projectionText);
         //testText.TestAtlas(shader, testText.GetCharacter('a').TextureID);
-
-
 
 		/*if (false)
 		{

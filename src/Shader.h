@@ -13,11 +13,11 @@ public:
 
 	GLuint Program;
 	Shader(const GLchar*, const GLchar*);
-	void Use();
-	void setInt(const std::string &name, int value) const;
-	void setM4fv(const std::string & name, glm::mat4 value) const;
-	void setFloat(const std::string& name, float value) const;
-	void set_vec2(const std::string &name,glm::vec2 vec);
+	void Use() const;
+	void SetInt(const std::string &name, int value) const;
+	void SetM4fv(const std::string & name, glm::mat4 value) const;
+	void SetFloat(const std::string& name, float value) const;
+	void SetVec2(const std::string &name,glm::vec2 vec) const;
 };
 
 #endif
