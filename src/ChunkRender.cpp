@@ -31,37 +31,6 @@ void ChunkRender::render(const std::vector<blockInfo>& curr_section)
 			}
 		}
 	}
-
-
-	
-
-
-
-
-	
-
-	/*for (auto x : curr_section)
-		if (x.second.notempty)
-		{
-			for (auto k : data_ver)
-			{
-				Vertex temp_ver;
-				temp_ver.Position = k.Position + x.second.position_;
-				temp_ver.Normal = k.Normal;
-				temp_ver.TexCoords = k.TexCoords;
-				this->_chunkMesh.vertices.push_back(temp_ver);
-
-				for (auto cur_ind : x.second.indices)
-				{
-					for (auto number_point = 0; number_point < 6; ++number_point)
-						this->_chunkMesh.indices.push_back(cur_ind * 6 + number_point + block_count);
-
-				}
-			}
-			block_count += 36;
-		}*/
-	
-	
 }
 
 void ChunkRender::setup_mesh()
@@ -70,12 +39,10 @@ void ChunkRender::setup_mesh()
 	_chunkMesh.Setup();
 }
 
-
 void ChunkRender::draw(Shader* shader)
 {
 	_chunkMesh.Draw(shader);
 }
-
 
 void ChunkRender::update_mesh(const std::vector<ChunkSection>& data)
 {

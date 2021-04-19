@@ -1,23 +1,24 @@
 #pragma once
-#include "Mesh.h"
-#include "ChunkRender.h"
 #include <unordered_map>
 #include <mutex>
+#include "Mesh.h"
+#include "ChunkRender.h"
 
 class RenderMaster
 {
-	std::vector<Mesh*> meshes_data_;
-	std::unordered_map<std::string, ChunkRender> chunk_meshes;
-	std::mutex _chunkMeshesMutex;
-
 public:
-	void add_mesh(Mesh*);
-	void add_chunk(std::string,ChunkRender&&);
-	void draw_meshes(Shader* shader);
-	void draw_chunks(Shader* shader);
-	std::string GetStr() {return "Test, Jony";}
-	void update_chunk(const std::string& str, const std::vector<ChunkSection>& data);
-	RenderMaster();
-	~RenderMaster();
+    RenderMaster();
+    ~RenderMaster() = default;
+
+    void DrawMeshes(Shader* shader);
+    void DrawChunks(Shader* shader);
+    void AddMesh(Mesh*);
+	void AddChunk(const std::string& key,ChunkRender&&);
+	void UpdateChunk(const std::string& str, const std::vector<ChunkSection>& data);
+
+private:
+    std::vector<Mesh*> _dataMeshes;
+    std::unordered_map<std::string, ChunkRender> _chunkMeshes;
+    std::mutex _chunkMeshesMutex;
 };
 

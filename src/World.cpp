@@ -5,11 +5,11 @@ World::World(Database* database)
     : _database(database)
     , _mutex()
 {
-    _chunkManager.create_area();
+    _chunkManager.CreateArea();
     for (auto& curr_chunk : _chunkManager.GetArea())
     {
         ChunkRender rend_chunk(_database, &curr_chunk.second);
-        _renderMaster.add_chunk(curr_chunk.first , std::move(rend_chunk));
+        _renderMaster.AddChunk(curr_chunk.first , std::move(rend_chunk));
     }
 }
 
@@ -34,7 +34,7 @@ void World::Draw(Shader* shader)
     std::unique_lock<std::mutex> lock {_mutex};
     if(lock)
     {
-        _renderMaster.draw_chunks(shader);
+        _renderMaster.DrawChunks(shader);
     }
 }
 

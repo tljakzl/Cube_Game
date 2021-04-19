@@ -71,7 +71,7 @@ int main()
 	World world(&database);
 
     auto&& runIt = [&world]() {
-        world.GetChunkManager().add_face_in_area(world.GetRenderMaster());
+        world.GetChunkManager().AddFaceInArea(world.GetRenderMaster());
     };
 
     std::thread addFaces(runIt);

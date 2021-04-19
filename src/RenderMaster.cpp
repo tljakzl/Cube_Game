@@ -3,52 +3,47 @@
 
 
 RenderMaster::RenderMaster()
-    :meshes_data_()
-    ,chunk_meshes()
+    :_dataMeshes()
+    ,_chunkMeshes()
     ,_chunkMeshesMutex()
 {
 }
 
-
-RenderMaster::~RenderMaster()
+void RenderMaster::AddMesh(Mesh* mesh_ptr)
 {
+	_dataMeshes.push_back(mesh_ptr);
 }
-
-void RenderMaster::add_mesh(Mesh* mesh_ptr)
+void RenderMaster::DrawMeshes(Shader* shader)
 {
-	this->meshes_data_.push_back(mesh_ptr);
-}
-void RenderMaster::draw_meshes(Shader* shader)
-{
-	for (auto& cur_mesh : meshes_data_)
+	for (auto& cur_mesh : _dataMeshes)
 	{
 		cur_mesh->Draw(shader);
 	}
 }
-void RenderMaster::draw_chunks(Shader* shader)
+void RenderMaster::DrawChunks(Shader* shader)
 {
     std::unique_lock<std::mutex> lock{_chunkMeshesMutex};
     if(lock)
     {
-        for (auto& cur_chunk : chunk_meshes) {
+        for (auto& cur_chunk : _chunkMeshes) {
             cur_chunk.second.draw(shader);
         }
     }
 }
-void RenderMaster::add_chunk(std::string key, ChunkRender&& chunk)
+void RenderMaster::AddChunk(const std::string& key, ChunkRender&& chunk)
 {
     std::unique_lock<std::mutex> lock{_chunkMeshesMutex};
     if(lock) {
-        chunk_meshes.emplace(key, chunk);
+        _chunkMeshes.emplace(key, chunk);
     }
 }
 
-void RenderMaster::update_chunk(const std::string& key, const std::vector<ChunkSection>& data)
+void RenderMaster::UpdateChunk(const std::string& key, const std::vector<ChunkSection>& data)
 {
     std::unique_lock<std::mutex> lock{_chunkMeshesMutex};
     if(lock) {
-        auto&& iter = chunk_meshes.find(key);
-        if (iter != chunk_meshes.end()) {
+        auto&& iter = _chunkMeshes.find(key);
+        if (iter != _chunkMeshes.end()) {
             iter->second.update_mesh(data);
         }
     }
