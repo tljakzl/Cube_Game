@@ -5,21 +5,18 @@
 
 unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma = false);
 
-void Database::loadModel(std::string path)
+void Database::LoadModel(const std::string& path)
 {
 	model_loader importer;
 	scene scene = importer.read_file(path.c_str());
 
-	directory = path.substr(0, path.find_last_of('//'));
-	std::cout << " directory: " << directory << std::endl;
+	_directory = path.substr(0, path.find_last_of('//'));
+	std::cout << " directory: " << _directory << std::endl;
 
-	processNode(scene);
+	ProcessNode(scene);
 }
 
-
-
-
-void Database::processNode(const scene& scene)
+void Database::ProcessNode(const scene& scene)
 {
 
 	/*for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -33,13 +30,11 @@ void Database::processNode(const scene& scene)
 		processNode(node->mChildren[i], scene);
 	}*/
 	
-	data.push_back(processMesh(scene));
+	_data.push_back(ProcessMesh(scene));
 }
 
-Mesh Database::processMesh(const scene& scene)
+Mesh Database::ProcessMesh(const scene& scene)
 {
-
-
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	Texture* textures;
@@ -65,14 +60,6 @@ Mesh Database::processMesh(const scene& scene)
 		vec.y = scene.meshes.textureCords.at(i).y;
 		vertex.TexCoords = vec;
 
-
-		//if (mesh->mTextureCoords[0]) 
-		//{
-
-		//}
-		/*else
-			vertex.TexCoords = glm::vec2(0.0f, 0.0f);*/
-
 		vertices.push_back(vertex);
 	}
 
@@ -83,64 +70,20 @@ Mesh Database::processMesh(const scene& scene)
 				indices.push_back(face.mIndices[j]);
 		}*/
 
-	for (auto i = 0; i < scene.meshes.textureCords.size(); ++i)
+	indices.reserve(scene.meshes.textureCords.size());
+    for (auto i = 0; i < scene.meshes.textureCords.size(); ++i)
 		indices.push_back(i);
-
-
-
-
-	/*if (mesh->mMaterialIndex >= 0)
-	{
-		material material = scene->mMaterials[mesh->mMaterialIndex];
-		std::vector<Texture> diffuseMaps = loadMaterialTextures(material, textureType_DIFFUSE, "texture_diffuse");
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	}*/
 
 	Texture texture;
 	std::string path = "textureMap.png";
-	texture.id = TextureFromFile(path.c_str(), directory);
+	texture.id = TextureFromFile(path.c_str(), _directory);
 	texture.type = "test";
 	texture.path = path.c_str();
-	textures_loaded = texture;
-	textures  = &textures_loaded;
+	_texturesLoaded = texture;
+	textures  = &_texturesLoaded;
 
 	return Mesh(vertices, indices, textures);
 }
-
-/*vector<Texture> Model::loadMaterialTextures(material& mat, textureType type, std::string typeName)
-{
-	std::vector<Texture> textures;
-	for (unsigned int i = 0; i < mat.GetTextureCount(type); i++)
-	{
-		std::string str;
-		mat.GetTexture(type, i, &str);
-		bool skip = false;
-		for (unsigned int j = 0; j < textures_loaded.size(); j++)
-		{
-			if (strcmp(textures_loaded[j].path.data(), str.c_str()) == 0)
-			{
-				textures.push_back(textures_loaded[j]);
-				skip = true;
-				break;
-			}
-		}
-		if (!skip)
-		{
-			Texture texture;
-			texture.id = TextureFromFile(str.c_str(), directory);
-			texture.type = typeName;
-			texture.path = str.c_str();
-			textures.push_back(texture);
-
-			textures_loaded.push_back(texture);
-		}
-	}
-	return textures;
-}*/
-
-
 
 unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma)
 {
@@ -186,14 +129,9 @@ unsigned int TextureFromFile(const char *path, const std::string &directory, boo
 
 Database::Database(const char* path)
 {
-	loadModel(path);
-}
-
-
-Database::~Database()
-{
+	LoadModel(path);
 }
 
 std::vector<Vertex> Database::GetVertices() const {
-    return data.begin()->GetVertices();
+    return _data.begin()->GetVertices();
 }

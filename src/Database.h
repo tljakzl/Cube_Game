@@ -4,17 +4,21 @@
 
 class Database
 {
-	void loadModel(std::string path);
-	void processNode(const scene& scene);
-	Mesh processMesh(const scene& scene);
-
 public:
+    explicit Database(const char* path);
+    ~Database() = default;
+    std::vector<Vertex> GetVertices() const;
 
-	Texture textures_loaded;
-	std::string directory;
-	std::vector<Mesh> data;
-	std::vector<Vertex> GetVertices() const;
-	explicit Database(const char* path);
-	~Database();
+private:
+    void LoadModel(const std::string&  path);
+    void ProcessNode(const scene& scene);
+    Mesh ProcessMesh(const scene& scene);
+
+private:
+	Texture _texturesLoaded;
+	std::string _directory;
+	std::vector<Mesh> _data;
+
+
 };
 
