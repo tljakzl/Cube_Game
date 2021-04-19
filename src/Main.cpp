@@ -10,26 +10,25 @@
 
 std::string GetDebugInformation(int FPS)
 {
-    float chunkSize = 16.f;
-    auto camera = Core::GetCamera();
-    float num_x = camera->Position.x / chunkSize;
-    int counter = 0;
-    float num_z = camera->Position.z / chunkSize;
+    std::stringstream buf;
 
-    if (num_x >= 0)
-        counter = 1;
-    else counter = -1;
-    int chunk_x = (int)(camera->Position.x / chunkSize) + counter;
+    if(auto camera = Core::GetCamera())
+    {
+        float chunkSize = 16.f;
+        int counter = 0;
+        auto position = camera->GetPosition();
+        float num_x = position.x / chunkSize;
+        float num_z = position.z / chunkSize;
 
-    if (num_z >= 0)
-        counter = 1;
-    else counter = -1;
-    int chunk_z = (int)(camera->Position.z / chunkSize) + counter;
+        counter = (num_x >= 0) ? 1 : -1;
+        int chunk_x = static_cast<int>(position.x / chunkSize) + counter;
+        counter = (num_z >= 0) ? 1 : -1;
+        int chunk_z = static_cast<int>(position.z / chunkSize) + counter;
 
-    std::stringstream buf ;
-    buf << "Position:(" << camera->Position.x << "," << camera->Position.y << "," << camera->Position.z << ")" << std::endl;
-    buf << "NumChunk:(" << chunk_x << ","  << chunk_z << ")" << std::endl;
-    buf << "FPS: " + std::to_string(FPS) << std::endl;
+        buf << "Position:(" << position.x << "," << position.y << "," << position.z << ")" << std::endl;
+        buf << "NumChunk:(" << chunk_x << ","  << chunk_z << ")" << std::endl;
+        buf << "FPS: " + std::to_string(FPS) << std::endl;
+    }
 
     return buf.str();
 }
@@ -91,7 +90,7 @@ int main()
         glDisable(GL_BLEND);
         auto camera = *Core::GetCamera();
 		glm::mat4 model;
-		const glm::mat4 projection = glm::perspective(camera.Zoom, static_cast<float>(Core::SCR_WIDTH) / Core::SCR_HEIGHT, 0.1f, 500.0f);
+		const glm::mat4 projection = glm::perspective(camera.GetZoom(), static_cast<float>(Core::SCR_WIDTH) / Core::SCR_HEIGHT, 0.1f, 500.0f);
 		const glm::mat4 view = camera.GetViewMatrix();
 
 		// TODO нужно прибрать куда-то шейдер, все настройки для шейдера должны вызываться до отрисовки мира и после Use!!!
