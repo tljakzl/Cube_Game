@@ -6,6 +6,7 @@
 #include "World.h"
 #include <thread>
 #include <filesystem>
+#include "Text.h"
 
 std::string GetDebugInformation(int FPS)
 {
@@ -63,6 +64,9 @@ int main()
     shaderPath2 += shaderPathFrag;
     databasePath += objectsPath;
 
+    //glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	Shader shader_for_block(shaderPath1.u8string().c_str(), shaderPath2.u8string().c_str());
 	Database database(databasePath.u8string().c_str());
 	World world(&database);
@@ -72,25 +76,42 @@ int main()
     };
     std::thread addFaces(runIt);
 
+    Shader shader("shaders/text.vs", "shaders/text.fs");
+    glm::mat4 projectionText = glm::ortho(0.0f, static_cast<float>(Core::SCR_WIDTH), 0.0f, static_cast<float>(Core::SCR_HEIGHT));
+    Text testText;
+
 	while (!glfwWindowShouldClose(window))
 	{
-	    Core::ChangeDeltaTime();
+	    int FPS = Core::ChangeDeltaTime();
 		glfwPollEvents();
 		Core::DoMovement();
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        glDisable(GL_BLEND);
         auto camera = *Core::GetCamera();
 		glm::mat4 model;
 		const glm::mat4 projection = glm::perspective(camera.Zoom, static_cast<float>(Core::SCR_WIDTH) / Core::SCR_HEIGHT, 0.1f, 500.0f);
 		const glm::mat4 view = camera.GetViewMatrix();
-		
+
+		// TODO нужно прибрать куда-то шейдер, все настройки для шейдера должны вызываться до отрисовки мира и после Use!!!
+        shader_for_block.Use();
+        shader_for_block.setInt("texture", 1);
 		shader_for_block.setM4fv("model", model);
 		shader_for_block.setM4fv("view", view);
 		shader_for_block.setM4fv("projection", projection);
 
         world.Draw(&shader_for_block);
-		if (false)
+
+        glEnable(GL_BLEND);
+
+        testText.RenderText(shader, GetDebugInformation(FPS), 0.0f, Core::SCR_HEIGHT - 70.f, 1.0f, glm::vec3(0.6, 0.8f, 0.9f), projectionText);
+        //testText.RenderText(shader, , 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f), projectionText);
+        //testText.TestAtlas(shader, testText.GetCharacter('a').TextureID);
+
+
+
+		/*if (false)
 		{
 			try 
 			{
@@ -104,8 +125,8 @@ int main()
 				std::cout << t.what() << std::endl;
 			}
 			//flag = false;
-		}
-	
+		}*/
+
 		glfwSwapBuffers(window);
 	}
 	addFaces.join();
