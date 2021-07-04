@@ -24,7 +24,10 @@ file(GLOB foo_SRC
         "${SRCDIR}/*.cpp"
 		"${SRCDIR}/engine/Window/*.h"
 		"${SRCDIR}/engine/Window/*.cpp"
-        )
+		"${SRCDIR}/engine/Config/*.cpp"
+		"${SRCDIR}/engine/Config/*.h"
+		"${SRCDIR}/engine/*.cpp"
+		"${SRCDIR}/engine/*.h")
 add_executable(foo ${foo_SRC})
 
 # set output directory exe
