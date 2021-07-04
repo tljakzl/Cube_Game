@@ -16,3 +16,6 @@
 [submodule "libs/--force"]
 	path = libs/--force
 	url = https://github.com/g-truc/glm/
+[submodule "libs/predef"]
+	path = libs/predef
+	url = https://github.com/boostorg/predef
