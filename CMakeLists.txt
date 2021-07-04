@@ -76,3 +76,9 @@ target_include_directories(foo PRIVATE ${LIBSDIR}/stb)
 target_include_directories(foo PRIVATE ${LIBSDIR}/glm)
 add_subdirectory(${LIBSDIR}/glm)
 
+#add predef
+target_include_directories(foo PRIVATE ${LIBSDIR}/predef/include)
+add_subdirectory(${LIBSDIR}/predef)
+target_link_libraries(foo Boost::predef)
+
+
