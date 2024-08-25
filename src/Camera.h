@@ -33,6 +33,8 @@ public:
 	void ProcessMouseScroll(float yoffset);
 	const glm::vec3& GetPosition() const;
 	float GetZoom() const;
+    float GetPitch() const { return Pitch; };
+    float GetYaw() const { return Yaw; };
 
 private:
 	// Calculates the front vector from the Camera's (updated) Eular Angles

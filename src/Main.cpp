@@ -8,6 +8,8 @@
 #include <filesystem>
 #include "Text.h"
 
+extern bool flag;
+
 std::string GetDebugInformation(int FPS)
 {
     std::stringstream buf;
@@ -107,21 +109,21 @@ int main()
         //testText.RenderText(shader, , 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f), projectionText);
         //testText.TestAtlas(shader, testText.GetCharacter('a').TextureID);
 
-		/*if (false)
+		if (flag)
 		{
 			try 
 			{
-				float  alpha = camera.Pitch;
-				float  beta = camera.Yaw;
+				float  alpha = camera.GetPitch();
+				float  beta = camera.GetYaw();
 				float  alpha_ = glm::radians(alpha);
 				float  beta_ = glm::radians(beta);
-                world.DeleteBlock(glm::vec3(camera.Position.x + cos(beta_) * cos(alpha_), camera.Position.y + sin(alpha_), cos(alpha_)*sin(beta_) + camera.Position.z));
+                 world.DeleteBlock(glm::vec3(camera.GetPosition().x + cos(beta_) * cos(alpha_), camera.GetPosition().y + sin(alpha_), cos(alpha_) * sin(beta_) + camera.GetPosition().z));
 			}
 			catch (std::out_of_range t) {
 				std::cout << t.what() << std::endl;
 			}
-			//flag = false;
-		}*/
+			flag = false;
+		}
 
 		glfwSwapBuffers(window);
 	}

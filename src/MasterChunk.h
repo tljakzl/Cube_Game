@@ -15,6 +15,7 @@ public:
 	void CreateArea();
     std::unordered_map<std::string,Chunk>& GetArea();
     void AddFaceInArea(RenderMaster& render);
+    std::string FindChunk(glm::vec3 pos);
 
 private:
     int _x0 = -10;

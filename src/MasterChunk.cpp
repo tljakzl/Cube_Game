@@ -21,7 +21,7 @@ void ChunkManager::CreateArea()
 	}
 }
 
-std::string FindChunk(glm::vec3 pos)
+std::string ChunkManager::FindChunk(glm::vec3 pos)
 {
     int counter = 0;
 	float num_x = pos.x / 16;

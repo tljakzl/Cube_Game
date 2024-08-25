@@ -41,100 +41,61 @@ void World::Draw(Shader* shader)
 
 void World::DeleteBlock(const glm::vec3& pos)
 {
-	/*std::string key = find_chunk(pos);
+	std::string key = GetChunkManager().FindChunk(pos);
 	glm::vec3 pos_left = { pos.x + 1, pos.y, pos.z };
-	std::string key_left = find_chunk(pos_left);
+	std::string key_left = GetChunkManager().FindChunk(pos_left);
 
 	glm::vec3 pos_right = { pos.x - 1, pos.y, pos.z };
-	std::string key_right = find_chunk(pos_right);
+	std::string key_right = GetChunkManager().FindChunk(pos_right);
 
-	glm::vec3 pos_forward = { pos.x , pos.y, pos.z - 1};
-	std::string key_forward = find_chunk(pos_forward);
+	glm::vec3 pos_forward = { pos.x , pos.y, pos.z - 1 };
+	std::string key_forward = GetChunkManager().FindChunk(pos_forward);
 
 	glm::vec3 pos_backward = { pos.x , pos.y, pos.z + 1 };
-	std::string key_backward = find_chunk(pos_backward);
+	std::string key_backward = GetChunkManager().FindChunk(pos_backward);
 
-	glm::vec3 pos_top = { pos.x , pos.y - 1, pos.z  };
-	std::string key_top = find_chunk(pos_top);
+	glm::vec3 pos_top = { pos.x , pos.y - 1, pos.z };
+	std::string key_top = GetChunkManager().FindChunk(pos_top);
 
 	glm::vec3 pos_bottom = { pos.x , pos.y + 1, pos.z };
-	std::string key_bottom = find_chunk(pos_bottom);
-	
-	try
+	std::string key_bottom = GetChunkManager().FindChunk(pos_bottom);
+
+
+	auto& area = GetChunkManager().GetArea();
+	auto found = area.find(key);
+
+	if (found != area.end())
 	{
-		world.area.at(key).delete_block(pos);
-		try 
+		auto& chunk = found->second;
+		auto block_to_delete = chunk.get_block(pos);
+		if (block_to_delete != nullptr)
 		{
-			world.area.at(key_top).get_block(pos_top)->indices.push_back(top_side);
-		}
-		catch (std::out_of_range err)
-		{
-			std::cout << err.what() << std::endl;
-		}
+			block_to_delete->notempty = false;
+
+			//chunk.delete_block(pos);
+			auto push_side = [&](glm::vec3 pos, blockSide side) { if (chunk.get_block(pos) != nullptr) { chunk.get_block(pos)->indices.push_back(side); } };
+			push_side(pos_top, top_side);
+			push_side(pos_bottom, bottom_side);
+			push_side(pos_left, left_side);
+			push_side(pos_right, right_side);
+			push_side(pos_forward, forward_side);
+			push_side(pos_backward, backward_side);
+
+			if (key != key_backward && area.count(key_backward))
+				GetRenderMaster().UpdateChunk(key_backward, area.at(key_backward).chunk_data);
+			if (key != key_left && area.count(key_left))
+				GetRenderMaster().UpdateChunk(key_left, GetChunkManager().GetArea().at(key_left).chunk_data);
+			if (key != key_forward && area.count(key_forward))
+				GetRenderMaster().UpdateChunk(key_forward, GetChunkManager().GetArea().at(key_forward).chunk_data);
+			if (key != key_right && area.count(key_right))
+				GetRenderMaster().UpdateChunk(key_right, GetChunkManager().GetArea().at(key_right).chunk_data);
 
 
-		try
-		{
-			world.area.at(key_bottom).get_block(pos_bottom)->indices.push_back(bottom_side);
-		}
-		catch (std::out_of_range err)
-		{
-			std::cout << err.what() << std::endl;
-		}
+			GetRenderMaster().UpdateChunk(key, chunk.chunk_data);
 
-		try 
-		{
-			world.area.at(key_left).get_block(pos_left)->indices.push_back(left_side);
-			if (key != key_left)
-				render.update_chunk(key_left, world.area.at(key_left).chunk_data);
 		}
-		catch(std::out_of_range err)
-		{
-			std::cout << err.what() << std::endl;
-		}
-
-
-		try {
-			world.area.at(key_right).get_block(pos_right)->indices.push_back(right_side);
-			if (key != key_right)
-				render.update_chunk(key_right, world.area.at(key_right).chunk_data);
-		}
-		catch (std::out_of_range err)
-		{
-			std::cout << err.what() << std::endl;
-		}
-		
-
-		try
-		{
-			world.area.at(key_forward).get_block(pos_forward)->indices.push_back(forward_side);
-			if (key != key_forward)
-				render.update_chunk(key_forward, world.area.at(key_forward).chunk_data);
-		}
-		catch (std::out_of_range err)
-		{
-			std::cout << err.what() << std::endl;
-		}
-
-
-		try
-		{
-			world.area.at(key_backward).get_block(pos_backward)->indices.push_back(backward_side);
-			if (key != key_backward)
-				render.update_chunk(key_backward, world.area.at(key_backward).chunk_data);
-		}
-		catch (std::out_of_range err)
-		{
-			std::cout << err.what() << std::endl;
-		}
-
-		//need add top and bottom, and add function for update 
-	
-		render.update_chunk(key, world.area.at(key).chunk_data);
-
 	}
-	catch (...)
-	{
-		throw;
-	}*/
+
+	
+
 }

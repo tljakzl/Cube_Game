@@ -20,6 +20,8 @@ static float deltaTime = 0.0f;	// Время, прошедшее между по
 static float lastFrame = 0.0f;  // Время вывода последнего кадра
 static Camera camera(glm::vec3(5.0f, 121.0f, 26.0f));
 
+extern bool flag = false;
+
 namespace Core {
 
     Camera* GetCamera()
@@ -117,10 +119,12 @@ namespace Core {
                     break;
                 case GLFW_KEY_F:
                     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-                    //	flag = true;
                     break;
                 case GLFW_KEY_L:
                     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                    break;
+                case GLFW_KEY_R:
+                     flag = true;
                     break;
                 default:;
             }
