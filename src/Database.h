@@ -8,6 +8,8 @@ public:
     explicit Database(const char* path);
     ~Database() = default;
     std::vector<Vertex> GetVertices() const;
+    Texture* GetTexture() { return &_texturesLoaded; }
+    const std::vector<Mesh>& data() { return _data;  }
 
 private:
     void LoadModel(const std::string&  path);

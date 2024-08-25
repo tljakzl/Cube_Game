@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "Model.h"
 
-
-
-
 void Model::Draw(Shader* shader)
 {
 	for (unsigned int i = 0; i < meshes.size(); i++)
@@ -13,9 +10,7 @@ void Model::Draw(Shader* shader)
 void Model::set_position(const char* path, glm::vec3 position)
 {
 	this->position_ = position;
-
 }
-
 
 void Model::load_data(Database database)
 {
@@ -24,8 +19,8 @@ void Model::load_data(Database database)
 	std::vector<unsigned int> indices;
     Texture* textures;
 
-	auto data = database.data.begin();
-	for (auto& i : data->GetVertices())
+	auto data = database.data().begin();
+	for (auto& i : database.GetVertices())
 	{
 		Vertex temp_ver;
 		temp_ver.Position  = i.Position + position_;
@@ -46,7 +41,7 @@ void Model::load_data(Database database, std::vector<unsigned>* sides)
 	std::vector<unsigned int> indices;
 	Texture* textures;
 
-	auto data = database.data.begin();
+	auto data = database.data().begin();
 /*	for (auto i = data->vertices.begin(); i < data->vertices.end(); ++i)
 	{
 		Vertex temp_ver;
@@ -66,9 +61,6 @@ void Model::load_data(Database database, std::vector<unsigned>* sides)
 			temp_ver.TexCoords = ver.at(*j * 6 + i).TexCoords;
 			vertices.push_back(temp_ver);
 		}
-
-
-
 
 	for(auto j = sides->begin(); j< sides->end();++j)
 	for (auto i = 0; i < 6; ++i)

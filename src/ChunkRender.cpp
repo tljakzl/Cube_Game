@@ -35,7 +35,7 @@ void ChunkRender::render(const std::vector<blockInfo>& curr_section)
 
 void ChunkRender::setup_mesh()
 {
-	_chunkMesh.setTexture(&database_->textures_loaded);
+	_chunkMesh.setTexture(database_->GetTexture());
 	_chunkMesh.Setup();
 }
 
