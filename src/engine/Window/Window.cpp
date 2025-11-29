@@ -115,13 +115,13 @@ namespace Core {
                     glfwSetWindowShouldClose(window, GL_TRUE);
                     break;
                 case  GLFW_KEY_P:
-                    glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+                    //glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
                     break;
                 case GLFW_KEY_F:
-                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
                     break;
                 case GLFW_KEY_L:
-                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
                     break;
                 case GLFW_KEY_R:
                      flag = true;

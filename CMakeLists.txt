@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.8.0)
 project(foo)
 
+
+set(CMAKE_EXECUTABLE_SUFFIX ".html")
+add_compile_options("-s" "USE_FREETYPE=1")
+
 set(LLVM_ENABLE_RTTI ON)
 set(LLVM_ENABLE_EH ON)
 
@@ -45,8 +49,8 @@ if(MSVC)
 endif(MSVC)
 
 # add OpenGl
-find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIRS})
+#find_package(OpenGL REQUIRED)
+#include_directories(${OPENGL_INCLUDE_DIRS})
 if(WIN32)
 	target_compile_options(foo PRIVATE /EHsc)
 	target_link_libraries(foo ${OPENGL_LIBRARY})
@@ -55,33 +59,34 @@ else()
 endif()
 
 # add source
-target_include_directories(foo PUBLIC ${SRCDIR})
+target_include_directories(foo PUBLIC ${SRCDIR} ${FREETYPE_LIBRARIES})
 
 # add glfw
-target_include_directories(foo PRIVATE ${LIBSDIR}/glfw/include)
-add_subdirectory(${LIBSDIR}/glfw)
-target_link_libraries(foo glfw)
+#target_include_directories(foo PRIVATE ${LIBSDIR}/glfw/include)
+#add_subdirectory(${LIBSDIR}/glfw)
+#target_link_libraries(foo glfw)
 
 # add GLEW
-target_include_directories(foo PRIVATE ${LIBSDIR}/glew-cmake/include)
-add_subdirectory(${LIBSDIR}/glew-cmake)
-target_link_libraries(foo libglew_static)
+#target_include_directories(foo PRIVATE ${LIBSDIR}/glew-cmake/include)
+#add_subdirectory(${LIBSDIR}/glew-cmake)
+#target_link_libraries(foo libglew_static)
 
 # add freetype
-target_include_directories(foo PRIVATE ${LIBSDIR}/freetype2/include)
-add_subdirectory(${LIBSDIR}/freetype2)
-target_link_libraries(foo freetype)
+#target_include_directories(foo PRIVATE ${LIBSDIR}/freetype2/include)
+#add_subdirectory(${LIBSDIR}/freetype2)
+#target_link_libraries(foo freetype)
 
 # add stb
 target_include_directories(foo PRIVATE ${LIBSDIR}/stb)
 
 # add glm
 target_include_directories(foo PRIVATE ${LIBSDIR}/glm)
-add_subdirectory(${LIBSDIR}/glm)
+#add_subdirectory(${LIBSDIR}/glm)
 
 #add predef
-target_include_directories(foo PRIVATE ${LIBSDIR}/predef/include)
-add_subdirectory(${LIBSDIR}/predef)
-target_link_libraries(foo Boost::predef)
+#target_include_directories(foo PRIVATE ${LIBSDIR}/predef/include)
+#add_subdirectory(${LIBSDIR}/predef)
+#target_link_libraries(foo Boost::predef)
 
+add_link_options("-sUSE_FREETYPE=1" "-sUSE_GLFW=3")
 
